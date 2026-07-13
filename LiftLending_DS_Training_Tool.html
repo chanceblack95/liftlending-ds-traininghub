@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lift Lending — Debt Settlement Training Hub</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+  :root {
+    --navy: #1E2D3D;
+    --navy-mid: #263548;
+    --navy-light: #2f4060;
+    --steel: #4A7BA7;
+    --steel-light: #6a9ec9;
+    --silver: #8fa3c0;
+    --white: #f0f4fa;
+    --gray: #F4F6F8;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --clg: #dc5a3a;
+    --clg2: #dc5a3a;
+    --beyond: #10b981;
+    --clear: #8b5cf6;
+    --amber: #d97706;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    border-bottom: 2px solid var(--navy-light);
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo-img {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .header-text .title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+  .header-text .sub {
+    font-size: 12px;
+    color: var(--silver);
+    margin-top: 1px;
+  }
+  .header-badge {
+    margin-left: auto;
+    background: var(--steel);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    background: var(--navy-mid);
+    padding: 0 24px;
+    border-bottom: 1px solid rgba(74,123,167,0.2);
+    overflow-x: auto;
+    gap: 2px;
+  }
+  .nav::-webkit-scrollbar { height: 3px; }
+  .nav::-webkit-scrollbar-thumb { background: var(--steel); }
+  .nav-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    padding: 13px 16px;
+    border: none;
+    background: transparent;
+    color: var(--silver);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { color: var(--white); }
+  .nav-btn.active { color: var(--steel-light); border-bottom-color: var(--steel); }
+
+  /* ── CONTENT ── */
+  .content { padding: 28px 28px; max-width: 1080px; margin: 0 auto; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── TYPOGRAPHY ── */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .section-sub { color: var(--silver); font-size: 13px; margin-bottom: 24px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(74,123,167,0.18);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--steel-light);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── COMPANY TABS ── */
+  .company-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .company-tab {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .company-tab.alv { border-color: var(--clg2); color: var(--clg2); background: transparent; }
+  .company-tab.alv.active { background: var(--clg2); color: white; }
+  .company-tab.beyond { border-color: var(--beyond); color: var(--beyond); background: transparent; }
+  .company-tab.beyond.active { background: var(--beyond); color: white; }
+  .company-tab.clear { border-color: var(--clear); color: var(--clear); background: transparent; }
+  .company-tab.clear.active { background: var(--clear); color: white; }
+  .company-panel { display: none; }
+  .company-panel.active { display: block; }
+
+  /* ── CURRICULUM ── */
+  .day-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(74,123,167,0.18);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .day-header {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: background 0.2s;
+  }
+  .day-header:hover { background: rgba(74,123,167,0.07); }
+  .day-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--steel);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .day-info { flex: 1; }
+  .day-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
+  .day-meta { font-size: 11px; color: var(--silver); margin-top: 2px; }
+  .day-arrow { color: var(--silver); transition: transform 0.3s; font-size: 16px; }
+  .day-card.open .day-arrow { transform: rotate(180deg); }
+  .day-body { display: none; padding: 0 20px 16px; }
+  .day-card.open .day-body { display: block; }
+
+  .task-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .task-item:last-child { border-bottom: none; }
+  .task-check {
+    width: 18px; height: 18px;
+    border: 2px solid var(--steel);
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 0.2s;
+  }
+  .task-check.checked { background: var(--steel); border-color: var(--steel); }
+  .task-text { flex: 1; font-size: 13px; line-height: 1.5; }
+  .task-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    letter-spacing: 0.4px;
+  }
+  .tag-read { background: rgba(59,130,246,0.2); color: #60a5fa; }
+  .tag-practice { background: rgba(16,185,129,0.2); color: #34d399; }
+  .tag-crm { background: rgba(139,92,246,0.2); color: #a78bfa; }
+  .tag-quiz { background: rgba(245,158,11,0.2); color: #fbbf24; }
+  .tag-shadow { background: rgba(236,72,153,0.2); color: #f472b6; }
+
+  /* ── SCRIPT ── */
+  .script-stage {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--steel);
+    margin: 16px 0 6px;
+    text-transform: uppercase;
+  }
+  .script-block {
+    background: var(--navy);
+    border-left: 3px solid var(--steel);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .script-note {
+    background: rgba(74,123,167,0.1);
+    border: 1px solid rgba(74,123,167,0.25);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--steel-light);
+    margin: 8px 0;
+    font-style: italic;
+  }
+  .verbatim-block {
+    background: rgba(139,92,246,0.08);
+    border-left: 3px solid var(--clear);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 8px 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .client-action {
+    background: rgba(217,119,6,0.1);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 12px;
+  }
+  .client-action-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── OBJECTIONS ── */
+  .objection-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(74,123,167,0.18);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .objection-q {
+    padding: 14px 18px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+    transition: background 0.2s;
+  }
+  .objection-q:hover { background: rgba(74,123,167,0.07); }
+  .objection-a {
+    display: none;
+    padding: 0 18px 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .objection-card.open .objection-a { display: block; padding-top: 12px; }
+
+  /* ── COMPLIANCE ── */
+  .fail-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .fail-item.auto-fail { background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.2); }
+  .fail-item.warning { background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.2); }
+  .fail-item.ok { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); }
+  .fail-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── TABLE ── */
+  .ref-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .ref-table th {
+    background: rgba(74,123,167,0.15);
+    color: var(--steel-light);
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(74,123,167,0.2);
+  }
+  .ref-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* ── STATE TABLE ── */
+  .state-cell { font-size: 11px; font-family: 'Syne', sans-serif; font-weight: 700; padding: 6px 10px; border-radius: 5px; text-align: center; white-space: nowrap; }
+  .state-ok { background: rgba(16,185,129,0.12); color: #34d399; }
+  .state-legal { background: rgba(74,123,167,0.15); color: #93c5fd; }
+  .state-red { background: rgba(231,76,60,0.15); color: #f87171; }
+  .state-fcs { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .state-search { width: 100%; background: var(--navy); border: 1px solid rgba(74,123,167,.25); border-radius: 8px; padding: 9px 14px; color: var(--white); font-family: 'DM Sans',sans-serif; font-size: 13px; outline: none; margin-bottom: 16px; }
+  .state-search:focus { border-color: var(--steel); }
+  .state-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+
+  /* ── WORKFLOW ── */
+  .workflow-steps { display: flex; flex-direction: column; gap: 8px; }
+  .workflow-step {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 12px 16px;
+    background: var(--navy-mid);
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+  }
+  .workflow-step.ca { border-color: var(--clg2); }
+  .workflow-step.cb { border-color: var(--beyond); }
+  .workflow-step.cc { border-color: var(--clear); }
+  .step-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-num.a { background: var(--clg2); color: white; }
+  .step-num.b { background: var(--beyond); color: white; }
+  .step-num.c { background: var(--clear); color: white; }
+  .step-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px; margin-bottom: 3px; }
+  .step-desc { font-size: 12px; color: var(--silver); line-height: 1.4; }
+
+  /* ── AI COACH ── */
+  .coach-container {
+    background: var(--navy-mid);
+    border: 1px solid rgba(74,123,167,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 520px;
+    display: flex;
+    flex-direction: column;
+  }
+  .coach-header {
+    padding: 14px 20px;
+    background: rgba(74,123,167,0.1);
+    border-bottom: 1px solid rgba(74,123,167,0.15);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .coach-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+  .coach-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; }
+  .coach-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 20px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .coach-messages::-webkit-scrollbar { width: 4px; }
+  .coach-messages::-webkit-scrollbar-thumb { background: var(--navy-light); }
+  .msg { max-width: 80%; font-size: 13px; line-height: 1.6; }
+  .msg.ai { background: var(--navy-light); border-radius: 4px 12px 12px 12px; padding: 10px 14px; align-self: flex-start; }
+  .msg.user { background: var(--steel); color: white; border-radius: 12px 12px 4px 12px; padding: 10px 14px; align-self: flex-end; }
+  .coach-input-row { padding: 14px 20px; border-top: 1px solid rgba(74,123,167,0.15); display: flex; gap: 8px; }
+  .coach-input {
+    flex: 1;
+    background: var(--navy);
+    border: 1px solid rgba(74,123,167,0.25);
+    border-radius: 8px;
+    padding: 9px 14px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+    resize: none;
+    transition: border-color 0.2s;
+  }
+  .coach-input:focus { border-color: var(--steel); }
+  .coach-send {
+    background: var(--steel);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .coach-send:hover { background: var(--steel-light); }
+  .coach-send:disabled { opacity: 0.4; cursor: not-allowed; }
+  .coach-starters { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+  .starter-btn {
+    background: transparent;
+    border: 1px solid rgba(74,123,167,0.3);
+    color: var(--silver);
+    font-size: 11px;
+    padding: 5px 11px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .starter-btn:hover { border-color: var(--steel); color: var(--steel-light); }
+
+  /* ── REP TRACKER ── */
+  .tracker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .rep-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(74,123,167,0.18);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .rep-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .rep-status { font-size: 11px; color: var(--silver); margin-bottom: 12px; }
+  .progress-bar { height: 5px; background: var(--navy); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--steel); border-radius: 3px; transition: width 0.4s; }
+  .rep-days { display: flex; gap: 5px; }
+  .day-dot {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; font-family: 'Syne', sans-serif;
+  }
+  .day-dot.done { background: var(--steel); color: white; }
+  .day-dot.active { background: var(--navy-light); border: 2px solid var(--steel); color: var(--steel-light); }
+  .day-dot.todo { background: var(--navy); border: 2px solid var(--navy-light); color: var(--silver); }
+
+  /* ── UTILITY ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  ul.plain-list { list-style: none; }
+  ul.plain-list li {
+    padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px; display: flex; align-items: flex-start; gap: 8px;
+  }
+  ul.plain-list li:before { content: "→"; color: var(--steel); flex-shrink: 0; }
+  .company-label {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .label-clg { background: rgba(59,130,246,0.2); color: #60a5fa; }
+  .label-beyond { background: rgba(16,185,129,0.2); color: #34d399; }
+  .label-clear { background: rgba(139,92,246,0.2); color: #a78bfa; }
+
+  @media (max-width: 768px) {
+    .content { padding: 18px 14px; }
+    .two-col { grid-template-columns: 1fr; }
+    .header { padding: 12px 14px; }
+    .nav { padding: 0 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="https://i.imgur.com/placeholder.png" class="logo-img" id="logoImg" alt="Lift Lending" onerror="this.style.display='none'">
+  <div class="header-text">
+    <div class="title">LIFT LENDING</div>
+    <div class="sub">Debt Settlement Training Hub — Cordoba Legal · Beyond · Five Lakes · ClearOne</div>
+  </div>
+  <div class="header-badge">DS PROGRAM</div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showTab('curriculum',this)">📋 5-Day Curriculum</button>
+  <button class="nav-btn" onclick="showTab('coach',this)">🤖 AI Coach</button>
+  <button class="nav-btn" onclick="showTab('tracker',this)">📊 Rep Tracker</button>
+  <button class="nav-btn" onclick="showTab('script',this)">📝 Full Script</button>
+  <button class="nav-btn" onclick="showTab('objections',this)">💬 Objections</button>
+  <button class="nav-btn" onclick="showTab('guidelines',this)">🏦 Guidelines</button>
+  <button class="nav-btn" onclick="showTab('workflow',this)">⚙️ Workflows</button>
+  <button class="nav-btn" onclick="showTab('gota',this)">📋 GOTA / QA</button>
+  <button class="nav-btn" onclick="showTab('compliance',this)">⚠️ Compliance</button>
+  <button class="nav-btn" onclick="showTab('phones',this)">📞 Phone Numbers</button>
+  <button class="nav-btn" onclick="showTab('states',this)">🗺️ State Reference</button>
+</nav>
+
+<div class="content">
+
+<!-- ══════════════════ CURRICULUM ══════════════════ -->
+<div class="tab-panel active" id="tab-curriculum">
+  <div class="section-title">5-Day DS Onboarding Curriculum</div>
+  <div class="section-sub">Complete self-study path — one week to be call-ready across Cordoba Legal Group, Beyond Finance / Five Lakes, and ClearOne.</div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">📱 Use this alongside your DS Training Hub</div>
+    <p style="font-size:13px;color:var(--silver);">Check off tasks as you complete them. Use the AI Coach tab for quizzing and roleplay. Get each day signed off by your manager before moving on.</p>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num">1</div>
+      <div class="day-info">
+        <div class="day-title">Foundations — Company, Product & Industry</div>
+        <div class="day-meta">~4 hours · Read, Watch, Understand</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Read the Welcome Packet, Office Guidelines, and Dress Code in the DS binder</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Understand the difference between Debt Settlement, Debt Validation, Debt Consolidation, and Bankruptcy — know how to explain each to a client</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Learn the 3 backends: Cordoba Legal Group, Beyond Finance / Five Lakes, ClearOne Advantage — minimums, fees, and what makes each different</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Study DS Settlement Guidelines: min debt amounts ($10k ALV/$25k Beyond), account minimums, non-sell states, unacceptable creditors</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Watch Speed/Tonality/Control training videos — internalize the 3 Key Components of the Intro</div><div class="task-tag tag-read">WATCH</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Read Rep Training Packet — objectives (5%+ conversion, &lt;10% cancel), Shark Tank rules, chargebacks, lead protection</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">AI Coach quiz: "Quiz me on DS guidelines and which debts qualify for each backend"</div><div class="task-tag tag-quiz">QUIZ</div></div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num">2</div>
+      <div class="day-info">
+        <div class="day-title">CRM Setup & Credit Report Mastery</div>
+        <div class="day-meta">~4 hours · CRM, Systems, Practice</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Set up Bluerock dialer — communicator, agent console, log on, Softphone. Know how to pause (communicator only, not DND)</div><div class="task-tag tag-crm">CRM</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Set up Debt Pay Pro (DPP) — open TWO tabs: main contacts page + mail list search page simultaneously</div><div class="task-tag tag-crm">CRM</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Practice DPP workflow: phone search → offer code → Convert to Lead → fill all star fields (language tab, campaign, first digit SSN)</div><div class="task-tag tag-practice">PRACTICE</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Set up Salesforce with authenticator app — Beyond/ClearOne requires Cloudflare Browser</div><div class="task-tag tag-crm">CRM</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Read the Credit Report section — balances, utilization, payment history, account open dates, last payment dates, DTI</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Practice reading a mock credit report — identify eligible vs. ineligible accounts per backend minimums</div><div class="task-tag tag-practice">PRACTICE</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Bookmark TruePeopleSearch.com — know when to use it (when phone/offer code won't pull in DPP)</div><div class="task-tag tag-crm">CRM</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">AI Coach: "Give me a credit report scenario and quiz me on what to do"</div><div class="task-tag tag-quiz">QUIZ</div></div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num">3</div>
+      <div class="day-info">
+        <div class="day-title">Scripts, Pitch Mastery & Objections</div>
+        <div class="day-meta">~5 hours · Read, Practice, Roleplay</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Read the full Cordoba Legal Group script start to finish — open through banking collection</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Read the full Beyond/Five Lakes script — note key differences: EVVO, Side-by-Side email, GOTA requirement</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Read the full ClearOne COA script — note: 5 Options presentation, attorney model differences, COA Recap</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Study Pain Painting — 5 steps: Expose Pain, Understand Cause, Relate, Disassociate, Win Client Over</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Study Question Based Selling (QBS) — open-ended questions, stacking questions to guide objections</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Memorize the 3 Compliance Key Points you MUST cover before closing on every single call</div><div class="task-tag tag-read">MEMORIZE</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Study all objections and rebuttals — read every rebuttal out loud until it sounds natural, not scripted</div><div class="task-tag tag-practice">PRACTICE</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">AI Coach roleplay: "Roleplay a call — you're the client, throw me hard objections"</div><div class="task-tag tag-practice">ROLEPLAY</div></div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num">4</div>
+      <div class="day-info">
+        <div class="day-title">Company Guidelines, QA Scripts & Workflows</div>
+        <div class="day-meta">~4 hours · Read, Simulate, Memorize</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Study the Cordoba Legal Group 15-step workflow — all steps from Create Lead in DPP through submitting in Lift DPP</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Read the Cordoba Legal Group Contract Walk-Through — all 14 paragraphs, key signature pages (11, 14–15, 19, 20, 27), Welcome Call transfer procedure</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Study GOTA Recording Instructions — ext. 9777 recording paths for Beyond/Five Lakes and ClearOne. Learn Cordoba Welcome Call transfer procedure (561-934-7770)</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Study Beyond GOTA requirements — read full script, know every CLIENT ACTION NEEDED section</div><div class="task-tag tag-practice">PRACTICE</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Practice the ClearOne COA Recap and Alperstein Recap scripts out loud — including Litigation Protection pitch</div><div class="task-tag tag-practice">PRACTICE</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Learn Retention Warm Down — recap after QC/GOTA, how to handle post-close concerns</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Memorize payment scheduling: 3 business days out (5 for CA), weekdays only, no weekends/holidays</div><div class="task-tag tag-read">MEMORIZE</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Memorize all welcome call and customer service phone numbers for all backends</div><div class="task-tag tag-practice">MEMORIZE</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">AI Coach: "Quiz me on the Cordoba Legal Group QA Bot questions and what each means"</div><div class="task-tag tag-quiz">QUIZ</div></div>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num">5</div>
+      <div class="day-info">
+        <div class="day-title">Shadow Calls, Live Practice & Certification</div>
+        <div class="day-meta">~5 hours · Shadow, Roleplay, Certify</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Shadow 3–5 live calls with a senior rep — take notes on script flow and objection handling</div><div class="task-tag tag-shadow">SHADOW</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Complete a full call roleplay with manager — Cordoba Legal Group script start to finish</div><div class="task-tag tag-practice">ROLEPLAY</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Compliance run-through — cover all 3 key points naturally in the pitch without breaking flow</div><div class="task-tag tag-quiz">TEST</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Review all grounds for termination — know every prohibited action cold before going live</div><div class="task-tag tag-read">READ</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Final AI Coach session: "Give me a full mock DS call with hard objections and compliance questions"</div><div class="task-tag tag-quiz">FINAL</div></div>
+      <div class="task-item"><div class="task-check" onclick="chk(event,this)"></div><div class="task-text">Manager sign-off — review goals: 5%+ conversion, &lt;10% pre-1st cancel, &lt;15% pre-2nd, 0 returned files</div><div class="task-tag tag-shadow">CERTIFY</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ AI COACH ══════════════════ -->
+<div class="tab-panel" id="tab-coach">
+  <div class="section-title">DS AI Coach</div>
+  <div class="section-sub">Quiz yourself, practice objections, or ask anything about DS scripts, guidelines, or compliance.</div>
+  <div class="coach-starters">
+    <button class="starter-btn" onclick="sendStarter(this)">Quiz me on Cordoba Legal Group guidelines</button>
+    <button class="starter-btn" onclick="sendStarter(this)">Roleplay a call — throw me objections</button>
+    <button class="starter-btn" onclick="sendStarter(this)">What are the 3 compliance key points?</button>
+    <button class="starter-btn" onclick="sendStarter(this)">What debts qualify for Beyond Finance?</button>
+    <button class="starter-btn" onclick="sendStarter(this)">Walk me through the Cordoba contract walk-through</button>
+    <button class="starter-btn" onclick="sendStarter(this)">What's the difference between Cordoba, Beyond, and ClearOne?</button>
+    <button class="starter-btn" onclick="sendStarter(this)">What are the GOTA recording paths?</button>
+    <button class="starter-btn" onclick="sendStarter(this)">Quiz me on payment date rules</button>
+  </div>
+  <div class="coach-container">
+    <div class="coach-header">
+      <div class="coach-dot"></div>
+      <div class="coach-title">DS Training AI Coach — Cordoba Legal Group · Beyond · Five Lakes · ClearOne</div>
+    </div>
+    <div class="coach-messages" id="chatMessages">
+      <div class="msg ai">Hey! I'm your DS Training Coach. I know the full Cordoba Legal Group, Beyond Finance, Five Lakes, and ClearOne scripts — all objections, rebuttals, GOTA procedures, compliance rules, workflows, and settlement guidelines.<br><br>Ask me anything, request a quiz, or say "roleplay a call" to practice. Let's go! 💪</div>
+    </div>
+    <div class="coach-input-row">
+      <textarea class="coach-input" id="chatInput" placeholder="Ask a question, request a quiz, or start a roleplay..." rows="2" onkeydown="handleKey(event)"></textarea>
+      <button class="coach-send" id="sendBtn" onclick="sendMessage()">SEND</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ REP TRACKER ══════════════════ -->
+<div class="tab-panel" id="tab-tracker">
+  <div class="section-title">Rep Progress Tracker</div>
+  <div class="section-sub">Track where each new hire is in the 5-day curriculum.</div>
+  <div class="tracker-grid" id="repGrid">
+    <div class="rep-card">
+      <div class="rep-name">New Hire 1</div>
+      <div class="rep-status">Day 1 — Foundations</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div>
+      <div class="rep-days">
+        <div class="day-dot active">1</div><div class="day-dot todo">2</div><div class="day-dot todo">3</div><div class="day-dot todo">4</div><div class="day-dot todo">5</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:20px;">
+    <div class="card">
+      <div class="card-title">➕ Add a Rep</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <input id="repName" type="text" placeholder="Rep name..." style="background:var(--navy);border:1px solid rgba(74,123,167,.25);border-radius:8px;padding:9px 13px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;flex:1;min-width:180px;outline:none;">
+        <select id="repDay" style="background:var(--navy);border:1px solid rgba(74,123,167,.25);border-radius:8px;padding:9px 13px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;">
+          <option value="1">Day 1 — Foundations</option>
+          <option value="2">Day 2 — CRM & Credit</option>
+          <option value="3">Day 3 — Scripts & Objections</option>
+          <option value="4">Day 4 — Guidelines & QA</option>
+          <option value="5">Day 5 — Shadow & Certify</option>
+        </select>
+        <button onclick="addRep()" style="background:var(--steel);color:white;border:none;border-radius:8px;padding:9px 18px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.5px;">ADD REP</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SCRIPT ══════════════════ -->
+<div class="tab-panel" id="tab-script">
+  <div class="section-title">Full Call Script</div>
+  <div class="section-sub">Select your backend — complete script from open to close.</div>
+  <div class="company-tabs">
+    <button class="company-tab clg active" onclick="showCo('script','clg',this)">CORDOBA LEGAL</button>
+    <button class="company-tab beyond" onclick="showCo('script','beyond',this)">BEYOND / FIVE LAKES</button>
+    <button class="company-tab clear" onclick="showCo('script','clear',this)">CLEARONE</button>
+  </div>
+
+  <!-- CORDOBA LEGAL SCRIPT -->
+  <div class="company-panel active" id="script-clg">
+    <div class="card">
+      <div class="card-title">📞 CORDOBA LEGAL GROUP — Full Call Script</div>
+      <div class="script-note">⚡ Upon answering — search phone number in CRM (Forth/DPG). Do NOT mention Cordoba Legal Group until consent is given AND credit is pulled.</div>
+      <div class="script-stage">OPEN</div>
+      <div class="script-block">Good afternoon, this is <strong>[your name]</strong> from <strong>[campaign name]</strong>.<br><br>We provide free reviews of your eligibility for programs available in your state. If you did qualify, it would help relieve you of a large portion of your unsecured debt.<br><br>Before we see if you qualify, let's go over some basic information.<br><br>What state do you reside in?<br><br>What is the correct spelling of your last name? And your first name? Great!<br><br>Best number to reach you in case we get disconnected? Email address?</div>
+      <div class="script-stage">QUALIFYING QUESTIONS</div>
+      <div class="script-block">
+        <strong>1.</strong> How much do you have in total credit card debt?<br>
+        <strong>2.</strong> Do you have any other unsecured debt?<br>
+        <strong>3.</strong> How much are you paying monthly toward your unsecured debt?<br>
+        <strong>4.</strong> Are you currently in a debt program? If so, did they get any accounts a settlement?<br>
+        <strong>5.</strong> Have any creditors/collectors sued you?<br>
+        <strong>6.</strong> Are you currently employed or on a fixed income?
+      </div>
+      <div class="script-stage">THE PITCH</div>
+      <div class="script-block">Let me tell you about a service which looks like you would qualify for...<br><br>The service was specifically designed for people in your exact situation. It specializes in the negotiation and settlement of unsecured debt.<br><br>The program is completely <strong>performance based</strong> — even though you are represented by a law firm. Meaning, they do not get paid unless they get results.<br><br>The firm has well over 10 years of successfully helping people burdened by debt. They are A-Rated and accredited with the BBB.<br><br>Through their services they have been successful in negotiating and settling debt to <strong>75 cents on the dollar or less with zero interest</strong>.<br><br>Let me give you an example in numbers so you can get a better feel of how a scenario for you would work. (GO TO CALCULATOR)</div>
+      <div class="script-stage">HOW THE PROGRAM WORKS</div>
+      <div class="script-block"><strong>Fee Structure:</strong> Settling at 75 cents on the dollar or less.<br>• 50% or less goes to the creditor or collector<br>• 25% is Cordoba Legal Group's <strong>performance fee</strong> — they ONLY take that if they settle the debt<br><br><strong>Monthly Service Fee:</strong><br>• $60/month if total enrolled debt is <strong>$10,000 or more</strong><br>• $30/month if total enrolled debt is <strong>$9,999 or less</strong><br><br><strong>Key Benefits:</strong><br>• No fees upfront for the settlement company<br>• Savings from month 1<br>• Negotiate and settle quicker<br>• A-rated &amp; accredited on BBB<br>• Full defense against lawsuits from creditors<br>• 100% money back guarantee<br>• Avoid bankruptcy</div>
+      <div class="script-note">⚠️ COMPLIANCE — MUST COVER BEFORE CLOSING: (1) Credit will be negatively affected (2) NOT a loan / government program (3) Accounts will be closed (4) Cannot guarantee settlement % or timeline</div>
+      <div class="script-stage">CREDIT PULL AUTHORIZATION</div>
+      <div class="script-block">Perfect, now the last thing here <strong>[client name]</strong> is just your verbal authorization to do a soft credit check — as you know this won't hurt your credit in any way, just to confirm your eligibility on file. Do I have your verbal authorization to go ahead?<br><br>Date of Birth? · Social Security Number? · Physical address (no P.O. boxes)?</div>
+      <div class="script-note">🔄 PULL CREDIT in Forth (DPG) → Review eligible accounts ($300+ per account, $8,000 minimum total eligible debt) → Upload credit report to CRM before submitting</div>
+      <div class="script-stage">OFF HOLD — PAIN BUILDING</div>
+      <div class="script-block"><strong>[Client name]</strong>, are you still with me? Perfect.<br><br>Before I go through your qualification — what happened? What put you in this position? Was it a loss of income? Family emergency? Inflation? (LET CLIENT SPEAK)<br><br>I hear you, that will definitely do it... (EMPATHIZE — RELATE IF YOU CAN)<br><br>What is your main goal — lower payment? Save money? Just get debt free? (LET CLIENT SPEAK)</div>
+      <div class="script-stage">ENROLLMENT & CLOSE</div>
+      <div class="script-block">Enrollment steps are simple — payment dates, budget, employment info, and E-sign documents via Forth (DPG).<br><br>First payment: 3 business days from now = <strong>[date]</strong> (5 for CA). First payment cannot be more than 35 days out.<br><br>Verify: Employer · Position · Address · DOB · SSN · Email · Phone · Bank account (must be in client's name)<br><br>Budget → Banking → Walk through agreement → <strong>Transfer to Welcome Call</strong></div>
+      <div class="script-note">📞 Welcome Call Transfer: <strong>561-934-7770</strong> · Select 1 English / 2 Spanish · Enter client's HOME phone number on file · Do NOT stay on the line after transferring</div>
+    </div>
+  </div>
+
+  <div class="company-panel" id="script-beyond">
+    <div class="card">
+      <div class="card-title">📞 BEYOND / FIVE LAKES — Full Call Script</div>
+      <div class="script-note">⚡ Upon answering — search phone number or offer code in DPP Mail Records IMMEDIATELY while greeting</div>
+      <div class="script-stage">OPEN — RECORDED LINE DISCLOSURE REQUIRED</div>
+      <div class="script-block">Hello this is <strong>[your name]</strong> with <strong>[campaign name]</strong> on a recorded line.<br>Who do I have the pleasure of speaking with?<br><br>Great — I can definitely help. Best number to reach you is <strong>[phone]</strong>, correct?<br><br>I see the offer we sent you. What were you looking to use the loan for — paying down debts, major purchase, or extra cash?</div>
+      <div class="script-stage">INFO COLLECTION</div>
+      <div class="script-block">Verify: Name · Email · Mailing address<br>Employed, Self-Employed, Fixed Income, or Active Military? · Net monthly income (after taxes)? · Occupation · How long with employer? · Pay frequency — find exact dates · Rent/mortgage/own? · Who do you bank with?</div>
+      <div class="script-stage">SOFT PULL</div>
+      <div class="script-block">Do I have your verbal authorization to conduct a soft credit pull? It won't hurt you in any way — just to see your pre-approvals on file.<br>Date of Birth · Social Security Number (first digit if on file)<br>Have you been applying for loans recently or is this your first time?</div>
+      <div class="script-note">🔄 PULL CREDIT → Submit EVVO → Create Enrollment Plan → Give rep name & direct line → Put on hold</div>
+      <div class="script-stage">OFF HOLD — PAIN BUILD & PITCH</div>
+      <div class="script-block"><strong>[Client name]</strong>, sorry for the hold. You owe about <strong>$[___]</strong> and currently paying over <strong>$[___]/month</strong> mostly going to interest. Does that sound right?<br><br>What happened? Loss of income? Unexpected expenses? Inflation? (LET CLIENT SPEAK — EMPATHIZE)<br><br><strong>SEND EVVO AND HAVE CLIENT SEE BEYOND PROGRAM</strong><br><br>Congratulations — <strong>[Beyond/Five Lakes]</strong> works to modify and reduce the balances on your accounts. New monthly deposit: <strong>$[___]</strong>. Saving you <strong>$[___]/month</strong> over a <strong>[___]-month</strong> term. That's <strong>$[___] every year</strong>!</div>
+      <div class="script-stage">SIDE-BY-SIDE EMAIL</div>
+      <div class="script-block"><strong>CHANGE SUBJECT TO "Beyond or Five Lakes" AND SEND</strong><br><br>I sent you an email showing what you're paying now vs. the program. See your total savings of <strong>$[___]</strong>. What do you plan on doing with that extra cash every month?</div>
+      <div class="script-note">⚠️ COMPLIANCE — Must cover before close: (1) Adverse credit impact (2) Not a loan (3) Cards can be closed</div>
+      <div class="script-stage">ENROLLMENT & CLOSE</div>
+      <div class="script-block">First payment: 3 business days out = <strong>[date]</strong> OR 5 days out = <strong>[date]</strong>. Which works best?<br><br>Budget analysis → billing info → SEND DOCS → <strong>READ GOTA VERBATIM — NO EXCEPTIONS</strong></div>
+      <div class="script-note">📋 Welcome Call: Beyond → 1-855-769-0791 / Five Lakes → 1-855-734-9385 · WARM transfer only</div>
+    </div>
+  </div>
+
+  <!-- CLEARONE SCRIPT -->
+  <div class="company-panel" id="script-clear">
+    <div class="card">
+      <div class="card-title">📞 CLEARONE ADVANTAGE — Full Call Script</div>
+      <div class="script-note">⚡ Disclose call recording IMMEDIATELY — all calls recorded, client can opt out at any time</div>
+      <div class="script-stage">OPEN</div>
+      <div class="script-block"><strong>OUTBOUND:</strong> Hi, is <strong>[client name]</strong> available? This is <strong>[your name]</strong> from <strong>[your company]</strong> calling on a recorded line. You can opt out at any time. I am contacting you to look into options for paying off your unsecured debt. I've been assigned as your Certified Debt Consultant. What are you looking to accomplish today?<br><br><strong>INBOUND:</strong> Thank you for calling <strong>[your company]</strong>. All calls are recorded and monitored — you can opt out at any time. My name is <strong>[your name]</strong>. How may I assist you today?</div>
+      <div class="script-stage">HARDSHIP & DISCOVERY</div>
+      <div class="script-block">What changed financially that made you inquire today? · How long has this been going on? · How much has it impacted your income?<br><br>CURRENT clients: Only paying minimums? How much monthly? Any lump sum?<br>PAST DUE clients: How long behind? Creditor calls? Legal paperwork?</div>
+      <div class="script-stage">FCRA CREDIT PULL AUTHORIZATION</div>
+      <div class="script-block">I'm going to confirm your information so we can pull your credit with a soft inquiry through Experian — no cost, no credit impact.<br>Physical address · Date of Birth · Social Security Number<br><br>Does ClearOne Advantage have your verbal authorization under the Fair Credit Reporting Act to obtain information from your personal credit report? <strong>[VERBAL YES REQUIRED]</strong></div>
+      <div class="script-stage">DEBT VERIFICATION</div>
+      <div class="script-block">"The first account I see is a BOA credit card with a balance of $7,500 and a required minimum of about $225 a month." — Continue through each account.<br><br>Recap totals. Ask about missing accounts (payday loans, medical, PayPal). Ask about household co-debts.</div>
+      <div class="script-stage">THE 5 OPTIONS</div>
+      <div class="script-block"><strong>1. Manage Yourself</strong> — sounds like this has been difficult, is that right?<br><strong>2. Consolidation Loan</strong> — requires strong credit, still owe full amount plus interest<br><strong>3. Credit Counseling</strong> — no principal reduction, high payments may not relieve strain<br><strong>4. Bankruptcy</strong> — last resort, 7-10 years on credit, complicated and costly<br><strong>5. Debt Settlement ✓</strong> — 40-60% principal reduction, 24-60 months, one monthly payment<br><br>Based on our conversation, which option do you think would best help you achieve your financial goals?</div>
+      <div class="script-stage">PROGRAM EXPLANATION (5 STEPS)</div>
+      <div class="script-block">1. You voluntarily stop paying creditors — negative credit impact. Start single monthly payment into FDIC-insured dedicated account in your name.<br>2. ClearOne begins communicating with your creditors explaining your hardship.<br>3. They negotiate. Most clients see first settlement within 180 days.<br>4. ClearOne contacts you for approval when a creditor agrees. No payment until approved and first payment made.<br>5. Once creditors paid, you start to see credit improvement.</div>
+      <div class="script-note">💡 Litigation Protection — $33.95/month, already factored into payment quote. Lawsuit representation, court costs, filing fees. Most clients choose this.</div>
+      <div class="script-stage">RECAP & CLOSE</div>
+      <div class="script-block">Congratulations! You're approved for a <strong>[XX]-month term</strong> at <strong>$[___]/month</strong>.<br><br>Match program deposits with pay dates? → Walk through COA Recap Script verbatim → Walk through enrollment agreement via OneSpan</div>
+      <div class="script-note">📋 After agreement: ClearOne CLG contacts within 72 hours. Customer service: 888-768-4767</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ OBJECTIONS ══════════════════ -->
+<div class="tab-panel" id="tab-objections">
+  <div class="section-title">Objections & Rebuttals</div>
+  <div class="section-sub">Try at least 3 rebuttals before letting anyone off the phone. Same-day or next-day callbacks only.</div>
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">💡 Rules of Rebuttals</div>
+    <ul class="plain-list">
+      <li>Always lead with an affirmation — "I completely understand" / "That's a great question"</li>
+      <li>Never go head to head with the client — use QBS to get them to arrive at the answer themselves</li>
+      <li>Try at least 3 rebuttals before letting anyone off the phone</li>
+      <li>Same-day or next-day callbacks ONLY — never beyond 24 hours</li>
+    </ul>
+  </div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"I don't want to close my credit cards." <span>▼</span></div><div class="objection-a">Look — you've already used up about 90% of your available credit, and with these accounts maxed out, you're making interest-only payments that never hit the principal. Once we pay off these cards you'll have a fresh start with all new credit cards. Right now these are basically acting like expensive debit cards. However, if there are any cards you absolutely need to hold onto, just let me know and I can remove them.<br><br><em>QBS: "How long have you been trying to pay these cards down? Over that time do you feel like you're making real progress? As of right now how are the credit cards helping you? Do you think it's fair to say these cards are hurting you more than they're helping you?"</em></div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"I don't want my credit score affected." <span>▼</span></div><div class="objection-a">Your credit is being affected right now by these accounts. Payment history has never really been your issue — it's that these accounts are all maxed out. Sure, initially you'll see a dip, but you already have your mortgage and your vehicles — the main things you need credit for. Aside from that it's just to acquire more debt, which you don't need. We're going to take care of these accounts and help you increase your cash flow and regain your financial freedom.<br><br><em>QBS: "Is there anything in the short term you specifically need to leverage your credit for? Did you know the majority of your credit score is based on debt, and by getting rid of your debt it would actually help you in key categories?"</em></div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"I don't want to tarnish my relationship with these creditors." <span>▼</span></div><div class="objection-a">Each of these creditors has a fixed amount they settle on every time — this is a normal process. You're not giving up — we're putting you in a position to pay these accounts off as soon as possible. These banks will be more than happy to lend to you again because that's how they make their money. We just want to give them a reason to do business with you again. Everyone benefits: you get a lower payment and become debt free, and creditors get a tax write-off and a lendable customer.</div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"I've done something like this before and it messed me up." <span>▼</span></div><div class="objection-a">What you did was a traditional debt settlement program — I'm not going to bash it because it works, it's just very lengthy. It's mostly geared toward people who don't care about their credit. The Hybrid Modification Plan gives you the positives of loan consolidation WITH the positives of traditional settlement — giving you the best of both worlds. And unlike others, Cordoba Legal Group/Beyond sends out POA letters right away and starts working immediately.<br><br><em>QBS: "Do you know the name of the company you worked with? What was the biggest issue with that program? Would it be crazy for us to at least look at an option that will help you pay down this debt AND lower your DTI AND free up cash flow?"</em></div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"How do I know this isn't a scam?" <span>▼</span></div><div class="objection-a">We're not here to pressure you — we're on a secure recorded line. I'm happy to provide our website so you can do your due diligence. Cordoba Legal Group is A-rated with the BBB, licensed with the FTC, 3+ decades of experience. Beyond is A-rated on the BBB with 5-star reviews on TrustPilot. ClearOne works with Bar Licensed Attorneys in 49 states. Once enrolled you'll have full dashboard access to track everything every step of the way.</div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"I want to think it over / I want to talk to my spouse." <span>▼</span></div><div class="objection-a"><strong>GENERAL:</strong> I completely understand. Look — you've been paying on this high interest debt for quite some time and chances are you've been thinking about this every single month. This is not the market or the economy to be in this position. You must take action now.<br><br><strong>SPOUSAL (USE WISELY):</strong> Chances are you and your spouse have been talking about this debt for quite some time. The more you wait, the worse it gets. Just look at a calendar — I have [7 days out] or [10 days out] available, which works better?<br><br><strong>IF SPOUSE HAS DEBT TOO:</strong> If your spouse has debt, we can actually add them on as well!</div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"I can negotiate with my creditors myself." <span>▼</span></div><div class="objection-a">The reality is you cannot — not effectively. As a single consumer making high-interest payments every month, you have zero leverage. Creditors will never modify for someone who's still paying because they're making money off you.<br><br>We work with these creditors daily with established agreements. They send out Limited Power of Attorney notices immediately — creditors cannot take legal action against you while that's in place. The default rate is over 40% — creditors will not hesitate against an individual without legal backing.</div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"I just wanted a loan to pay off the debts." <span>▼</span></div><div class="objection-a">Absolutely — everybody does. The first thing I do is try to get you a loan with the best rate possible. Unfortunately, due to the amount of debt and current utilization, you can't qualify for good financing right now. If you got a loan, it would be 40-50% interest — trading bad debt for even worse debt.<br><br>After 6 on-time payments, the program offers an early graduation loan — pre-approved to pay off the resolved balance in one shot. That puts you back in position to qualify for prime financing.</div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"Will my creditors call me?" <span>▼</span></div><div class="objection-a">Yes — at first they'll call for the first month or so. That's perfectly normal. Before they go through with the modification, they want to try to keep you on that high interest payment. So you'll simply tell them: "I'm working with a law firm — don't contact me by phone anymore, only contact me by email." And just like that it's taken care of.</div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"Is this a bankruptcy?" <span>▼</span></div><div class="objection-a">Absolutely not — this is far from bankruptcy. People actually use this process to AVOID going that route. Bankruptcy is like the nuclear bomb of debt — wipes it out but leaves radiation on your credit for 7-10 years, scaring creditors away. This is specifically for financially responsible people who want to get out of debt while maintaining their ability to leverage credit in the future.</div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"How do you know creditors will work with you?" <span>▼</span></div><div class="objection-a">The greatest thing about this program is they only work with creditors they have pre-established agreements with. Certain creditors don't settle — like Mariner Finance, Tower Loans, Enerbank — and for that reason we don't work with them.<br><br>The program is fully performance-based — they don't get paid until your accounts are settled. When they pool thousands of clients' accounts and bring creditors millions of dollars at once, creditors love working with them.</div></div>
+
+  <div class="objection-card" onclick="toggleObj(this)"><div class="objection-q">"How did you get my information?" <span>▼</span></div><div class="objection-a">That's a great question — you're usually referred over to us through the credit bureaus, your primary financial institution, or an application or denial within the past 24 months. We're reaching out to everyone in the country. When COVID hit, inflation went up, interest rates went up, prices went up — but income didn't follow. So we're reaching out to everyone to see if there's anything we can do. Now I see here... (move on)</div></div>
+</div>
+
+<!-- ══════════════════ GUIDELINES ══════════════════ -->
+<div class="tab-panel" id="tab-guidelines">
+  <div class="section-title">Company Guidelines</div>
+  <div class="section-sub">Program minimums, payment rules, and requirements for each backend. Know these before taking a call. Min $8k eligible debt for Cordoba.</div>
+  <div class="company-tabs">
+    <button class="company-tab clg active" onclick="showCo('guidelines','clg',this)">CORDOBA LEGAL</button>
+    <button class="company-tab beyond" onclick="showCo('guidelines','beyond',this)">BEYOND / FIVE LAKES</button>
+    <button class="company-tab clear" onclick="showCo('guidelines','clear',this)">CLEARONE</button>
+  </div>
+
+  <!-- CORDOBA LEGAL GUIDELINES -->
+  <div class="company-panel active" id="guidelines-clg">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">💰 Cordoba Legal Group — Minimums & Fees</div>
+        <table class="ref-table">
+          <tr><th>Item</th><th>Requirement</th></tr>
+          <tr><td>Min Total Eligible Debt</td><td><strong>$8,000</strong> (Lift Lending minimum)</td></tr>
+          <tr><td>Min Per Account</td><td><strong>$300</strong> (multiple accounts with same creditor may combine)</td></tr>
+          <tr><td>Performance Fee</td><td><strong>25%</strong> of enrolled debt — ONLY paid after settlement</td></tr>
+          <tr><td>Monthly Service Fee</td><td><strong>$60/mo</strong> if $10,000+ enrolled · <strong>$30/mo</strong> if $9,999 or less</td></tr>
+          <tr><td>Settles at</td><td>75 cents on dollar or less (50% to creditor, 25% CLG fee)</td></tr>
+          <tr><td>Summons fee (if applicable)</td><td>$550 upfront + 1st payment (due within 3 business days)</td></tr>
+          <tr><td>Welcome Call Transfer</td><td>561-934-7770</td></tr>
+          <tr><td>Customer Service</td><td>1-888-988-6815</td></tr>
+          <tr><td>Creditor Hotline</td><td>561-560-3195</td></tr>
+          <tr><td>Support Email</td><td>support@cordobalegal.com</td></tr>
+          <tr><td>Legal/Summons Email</td><td>legal@cordobalegal.com</td></tr>
+          <tr><td>1st Payment</td><td>3 bus. days out (5 for CA) · Max 35 days out</td></tr>
+          <tr><td>Max client age</td><td>89 years — CLG does not accept clients 90+</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">✅ Required Fields — Cordoba Enrollment</div>
+        <ul class="plain-list" style="font-size:12px;">
+          <li>Language preference</li>
+          <li>First &amp; Last Name</li>
+          <li>Date of Birth</li>
+          <li>Social Security Number</li>
+          <li>Phone number (home phone required for Welcome Call)</li>
+          <li>Email address</li>
+          <li>Physical address — city, state, zip (NO P.O. boxes)</li>
+          <li>All debts (must be on credit report used for enrollment)</li>
+          <li>Bank account (must be in client's name)</li>
+          <li>Employer &amp; position</li>
+          <li>Hardship description</li>
+          <li>Budget (income must support monthly payment)</li>
+          <li>Upload credit report to CRM before submitting</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">✅ Acceptable Debt — Cordoba Legal Group</div>
+      <div class="two-col">
+        <ul class="plain-list" style="font-size:12px;">
+          <li>Unsecured credit card debt from banks and credit unions (must NOT be attached to a vehicle or asset)</li>
+          <li>Personal loans (unsecured / note loans)</li>
+          <li>Collection accounts (original creditor must be acceptable)</li>
+          <li>Medical debt IN COLLECTIONS ONLY — must also have credit card/loan debt comprising at least 50% of total</li>
+          <li>Back rent ONLY if in collections — cannot exceed 50% of total debt load; must have CC/loan debt too</li>
+          <li>Business accounts ONLY if business is out of business or failing with no profits — cannot exceed 50% of total</li>
+          <li>Online payday loans (most online, select store fronts — see acceptable list)</li>
+          <li>Major banks: BofA, Wells Fargo, Citigroup, Chase, US Bank, PNC, Truist, Goldman Sachs, Capital One, TD Bank, Fifth Third, Citizens, KeyBank, Regions, Huntington, M&T, Discover, SoFi, Morgan Stanley</li>
+        </ul>
+        <ul class="plain-list" style="font-size:12px;">
+          <li>At least 1 payment must have been made on account to enroll</li>
+          <li>Debts NOT on credit report: must have statements/agreements uploaded before enrolling (except online payday loans)</li>
+          <li>Co-applicant: must share at least 1 joint debt, credit pulled with them present, sign agreement, present for welcome call</li>
+          <li>Only married couples can enroll individual debts on the same file</li>
+          <li>Secured debt ONLY acceptable if attached to small household item (toaster, microwave, TV) — client must be willing to surrender item, must be notated on file</li>
+          <li>Client must have a physical address — no P.O. boxes</li>
+          <li>Client must be employed or have fixed income</li>
+          <li>Client must be under 90 years old</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🚫 Unacceptable Debt — Cordoba Legal Group</div>
+      <div class="two-col">
+        <ul class="plain-list" style="font-size:12px;">
+          <li>No secured debt (except small household items as noted)</li>
+          <li>No government debt of any kind</li>
+          <li>No IRS debt</li>
+          <li>No student loans (private or government)</li>
+          <li>No home improvement loans</li>
+          <li>No title loans</li>
+          <li>No farm loans</li>
+          <li>No timeshares</li>
+          <li>No bank drafts</li>
+          <li>No rent-to-own or lease-to-own accounts</li>
+          <li>No utilities (even if in collections)</li>
+          <li>No cash advances from credit cards</li>
+          <li>No accounts in forbearance</li>
+          <li>No judgements</li>
+          <li>No accounts with blank creditor name unless original creditor can be matched</li>
+        </ul>
+        <ul class="plain-list" style="font-size:12px;">
+          <li>No accounts in pre-litigation or active litigation (summons must be reviewed and approved first)</li>
+          <li>No military accounts</li>
+          <li>No back rent not in collections</li>
+          <li>No repo'd vehicles unless also have CC/loan debt at 50%+</li>
+          <li>No debts under $300 (unless multiple accounts with same creditor totaling $300+, no single debt under $100)</li>
+          <li>Business debt that received a summons</li>
+          <li>Medical only files — must have CC/loan debt too</li>
+          <li>Clients 90 years or older — no exceptions</li>
+          <li><strong>Secured unacceptable creditors:</strong> Lendmark · One Main · Regional Finance · Republic Finance</li>
+          <li><strong>Unacceptable states:</strong> Oregon · Puerto Rico</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚠️ Summons Procedure — Cordoba Legal Group</div>
+      <div class="fail-item warning" style="margin-bottom:8px;"><div class="fail-icon">⚠️</div><div><strong>NOT YET ENROLLED:</strong> Share full summons in Slack (Client Relations) and wait for approval before enrolling. Once approved: enroll client, email summons to legal@cordobalegal.com with client ID in subject and Date of Service (DOS) in the body.</div></div>
+      <div class="fail-item warning" style="margin-bottom:8px;"><div class="fail-icon">⚠️</div><div><strong>ALREADY ENROLLED:</strong> Forward all legal documents directly to legal@cordobalegal.com.</div></div>
+      <div class="fail-item ok"><div class="fail-icon">✅</div><div><strong>Summons fee:</strong> $550 upfront + 1st program payment, all due within 3 business days (CA: 5 business days). You do NOT collect this fee — inform client and CLG collects directly. Must be in PDF format, screenshots not accepted. Tag @legalsummonsreview in Slack.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚖️ Right of Offset vs. Cross-Collateralization</div>
+      <div class="two-col">
+        <div>
+          <p style="font-size:12px;font-weight:700;color:var(--steel-light);margin-bottom:8px;">RIGHT OF OFFSET</p>
+          <p style="font-size:12px;line-height:1.7;color:var(--silver);">If a client enrolls a debt with the same bank they bank with, that bank can reach into their checking account and apply those funds to the debt — WITHOUT the client's permission. Advise client to change banks or keep a very low balance in that account.</p>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:700;color:var(--steel-light);margin-bottom:8px;">CROSS-COLLATERALIZATION</p>
+          <p style="font-size:12px;line-height:1.7;color:var(--silver);">When collateral used to secure one loan is also used to secure other loans with the same lender. If a client defaults on one, the lender can seize collateral for all. Always ask about loans and mortgages at the same bank as enrolled debts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="company-panel" id="guidelines-beyond">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">💰 Beyond / Five Lakes Minimums</div>
+        <table class="ref-table">
+          <tr><th>Item</th><th>Requirement</th></tr>
+          <tr><td>Min Total Debt</td><td><strong>$25,000</strong></td></tr>
+          <tr><td>Min Eligible Debt</td><td><strong>$10,000</strong></td></tr>
+          <tr><td>Min Per Account</td><td>$450</td></tr>
+          <tr><td>Fee — Green States</td><td>25%</td></tr>
+          <tr><td>Fee — Gold States</td><td>27% (MT: 18%, ID: 20%)</td></tr>
+          <tr><td>Income vs. Expenses</td><td>Must exceed by $20+</td></tr>
+          <tr><td>Welcome Call — Beyond</td><td>1-855-769-0791</td></tr>
+          <tr><td>Welcome Call — Five Lakes</td><td>1-855-734-9385</td></tr>
+          <tr><td>CS — Beyond</td><td>1-800-282-7186</td></tr>
+          <tr><td>CS — Five Lakes</td><td>1-855-441-6129</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">⚙️ Beyond Compliance Rules</div>
+        <ul class="plain-list" style="font-size:12px;">
+          <li>Identify yourself and company every call</li>
+          <li>State call recording disclosure</li>
+          <li>Verbal auth with full SSN before credit pull</li>
+          <li>Never falsify the budget</li>
+          <li>Advise cross-collateralization clients to change banks</li>
+          <li>Never guarantee a 50% settlement or specific timeline</li>
+          <li>Never state program will improve credit score</li>
+          <li>Never quote program without the fee included</li>
+          <li>GOTA must be read verbatim — no exceptions</li>
+          <li>UDMSA States (CO, NV, TN, UT): extra disclosures — ask manager</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLEARONE GUIDELINES -->
+  <div class="company-panel" id="guidelines-clear">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">💰 ClearOne / Alperstein</div>
+        <table class="ref-table">
+          <tr><th>Item</th><th>Details</th></tr>
+          <tr><td>Min Total Debt</td><td><strong>$10,000</strong></td></tr>
+          <tr><td>Min Per Account</td><td><strong>$500</strong></td></tr>
+          <tr><td>ClearOne Fee</td><td>28–29% per settlement</td></tr>
+          <tr><td>Alperstein Fee</td><td>30% of enrolled debt</td></tr>
+          <tr><td>Litigation Protection</td><td>$33.95/month</td></tr>
+          <tr><td>First Settlement</td><td>Most within 180 days</td></tr>
+          <tr><td>Settlement Approval Line</td><td><strong>443-646-4744</strong> — client MUST save!</td></tr>
+          <tr><td>Customer Service</td><td>888-768-4767</td></tr>
+          <tr><td>Welcome Call</td><td>Within 72 hours</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">⚠️ ClearOne Payroll Deduction Creditors</div>
+        <p style="font-size:12px;color:var(--silver);margin-bottom:8px;">If client enrolls any of these — they MUST voluntarily stop payroll deduction:</p>
+        <p style="font-size:12px;line-height:1.8;">BMG Money · Kashable · FM Access · PerPay · Possible Finance · Post Lake Lending · Salary Finance · Statley Credit · Valley Servicing · Blinc Loans/One Blinc · Coast2Coast Lenders · Even</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Universal Settlement Guidelines</div>
+      <div class="two-col">
+        <ul class="plain-list" style="font-size:12px;">
+          <li>Employed or fixed income — no unemployed clients</li>
+          <li>Physical address required — no P.O. boxes</li>
+          <li>No active military</li>
+          <li>No judgements or active summons</li>
+          <li>No active bankruptcy</li>
+          <li>Hardship description required (2+ sentences)</li>
+        </ul>
+        <ul class="plain-list" style="font-size:12px;">
+          <li>1st payment: 3 business days out (5 for CA)</li>
+          <li>CA submissions after 5pm: count as next day</li>
+          <li>Weekdays only — no weekends/holidays</li>
+          <li>Reschedule: always 2 business days minimum</li>
+          <li>Budget: income must exceed expenses + payment by $20</li>
+          <li>Bank account must be in applicant's name</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ WORKFLOWS ══════════════════ -->
+<div class="tab-panel" id="tab-workflow">
+  <div class="section-title">Step-by-Step Workflows</div>
+  <div class="section-sub">The exact sequence for completing an enrollment — follow these in order, every time.</div>
+  <div class="company-tabs">
+    <button class="company-tab clg active" onclick="showCo('workflow','clg',this)">CORDOBA LEGAL</button>
+    <button class="company-tab beyond" onclick="showCo('workflow','beyond',this)">BEYOND / FIVE LAKES</button>
+    <button class="company-tab clear" onclick="showCo('workflow','clear',this)">CLEARONE</button>
+  </div>
+  <div class="company-panel active" id="workflow-clg">
+    <div class="workflow-steps">
+      <div class="workflow-step clg2"><div class="step-num c2">1</div><div><div class="step-label">Verify State Eligibility</div><div class="step-desc">Confirm client is NOT in Oregon or Puerto Rico. Must have physical address — no P.O. boxes.</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">2</div><div><div class="step-label">Collect Required Info</div><div class="step-desc">Language · First &amp; Last Name · DOB · SSN · Phone (home + cell) · Email · Address · Employer &amp; Position · Hardship description</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">3</div><div><div class="step-label">Get Verbal Auth → Pull Credit in Forth (DPG)</div><div class="step-desc">Do NOT mention Cordoba Legal Group until credit is pulled. Identify eligible accounts ($300+, $8,000 minimum total). Upload all credit reports to CRM before submitting.</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">4</div><div><div class="step-label">Check "Purchaser 1 Eligible" in System</div><div class="step-desc">If showing INELIGIBLE — CLG may have client in their system. If ELIGIBLE (green) — proceed but note a recent enrollment may still be pending.</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">5</div><div><div class="step-label">Build Enrollment Plan &amp; Pitch</div><div class="step-desc">Calculate monthly payment, total enrolled debt, settlement projection (75 cents on dollar). Deliver pitch — confirm monthly service fee ($60 or $30 based on total debt).</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">6</div><div><div class="step-label">Cover Compliance Points</div><div class="step-desc">Credit will be negatively affected · NOT a loan or government program · Cannot guarantee settlement % or timeline · Accounts will be closed</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">7</div><div><div class="step-label">Set Payment Dates</div><div class="step-desc">3 business days minimum (5 for CA) · Max 35 days out · Must fall on a weekday · Bank account must be in client's name</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">8</div><div><div class="step-label">Complete Budget Analysis</div><div class="step-desc">Document all income and expenses. Client's income must support the monthly program payment.</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">9</div><div><div class="step-label">Check for Summons</div><div class="step-desc">If any enrolled account has received a summons: share in Slack (@legalsummonsreview), wait for approval, then proceed. Inform client of $550 upfront fee due within 3 business days.</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">10</div><div><div class="step-label">Collect Banking Info &amp; Send Agreement (Forth/DPG)</div><div class="step-desc">Routing number → account number. Send agreement via Forth (DPG). Walk client through all paragraphs and signature fields.</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">11</div><div><div class="step-label">Contract Walk-Through</div><div class="step-desc">Walk through all 14 paragraphs. Key signature pages: Page 11 (main sig) · Page 14–15 (authorization to contact creditors) · Page 19 (initials, Forth-Cordoba) · Page 20 (signature) · Page 27 (final signature)</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">12</div><div><div class="step-num c2" style="display:none;"></div><div class="step-label">Transfer to Welcome Call</div><div class="step-desc">Dial <strong>561-934-7770</strong> · Press 1 (English) or 2 (Spanish) · Enter client's HOME phone number on file · Do NOT stay on the line. CLG Welcome Call team will notify you via Skype if completed or if changes needed.</div></div></div>
+      <div class="workflow-step clg2"><div class="step-num c2">13</div><div><div class="step-label">Post-Welcome Call</div><div class="step-desc">If changes needed: make corrections, send new agreement to client, transfer back to Welcome Call team. If summons client: after welcome call completes, email summons to legal@cordobalegal.com with client ID and Date of Service.</div></div></div>
+    </div>
+  </div>
+
+  <div class="company-panel" id="workflow-beyond">
+    <div class="workflow-steps">
+      <div class="workflow-step cb"><div class="step-num b">1</div><div><div class="step-label">Answer & Search DPP Simultaneously</div><div class="step-desc">Search phone # in both DPP tabs while greeting. Pull up contact or create new lead via offer code.</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">2</div><div><div class="step-label">Collect & Verify Info</div><div class="step-desc">Name · Email · Address · Employment · Net Income · Pay frequency · Bank · DOB · SSN (with verbal auth)</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">3</div><div><div class="step-label">Pull Credit → Submit EVVO</div><div class="step-desc">Forth (DPG) → identify eligible accounts → give rep name & direct line → put on hold</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">4</div><div><div class="step-label">Create Enrollment Plan</div><div class="step-desc">Calculate monthly savings, total savings, program term. Build the side-by-side comparison.</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">5</div><div><div class="step-label">Take Off Hold — Pain Build & Pitch</div><div class="step-desc">Confirm total debt, ask what happened, deliver full pitch with EVVO visual</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">6</div><div><div class="step-label">Send Side-by-Side Email</div><div class="step-desc">Change subject to "Beyond or Five Lakes" → send → walk client through numbers on screen</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">7</div><div><div class="step-label">Cover All 3 Compliance Points</div><div class="step-desc">Adverse credit impact · Not a loan · Cards can be closed — ALL THREE before closing</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">8</div><div><div class="step-label">Set Payment Dates</div><div class="step-desc">3 business days out (default) · 5 for CA · Bi-weekly recurring · Weekdays only</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">9</div><div><div class="step-label">Complete Budget Analysis</div><div class="step-desc">All expenses addressed — remaining cash flow must exceed program deposit</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">10</div><div><div class="step-label">Collect Banking → Send Docs → READ GOTA VERBATIM</div><div class="step-desc">Routing first → account number → send enrollment agreement → READ GOTA — no shortcuts, no exceptions</div></div></div>
+      <div class="workflow-step cb"><div class="step-num b">11</div><div><div class="step-label">Transfer to Welcome Call</div><div class="step-desc">Beyond: 1-855-769-0791 · Five Lakes: 1-855-734-9385 · WARM transfer — wait for agent, announce, note file</div></div></div>
+    </div>
+  </div>
+  <div class="company-panel" id="workflow-clear">
+    <div class="workflow-steps">
+      <div class="workflow-step cc"><div class="step-num c">1</div><div><div class="step-label">Open & Disclose</div><div class="step-desc">State call is recorded, client can opt out. Identify as Certified Debt Consultant.</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">2</div><div><div class="step-label">Hardship & Discovery</div><div class="step-desc">What changed? How long? How impacted? Use QBS to build trust and uncover full situation.</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">3</div><div><div class="step-label">FCRA Credit Pull Authorization</div><div class="step-desc">Verbal authorization for Experian soft pull from client (and co-client if applicable)</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">4</div><div><div class="step-label">Debt Verification</div><div class="step-desc">Go through each eligible account — name, balance, minimum. Recap totals. Ask about missing accounts.</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">5</div><div><div class="step-label">Present 5 Options → Guide to Debt Settlement</div><div class="step-desc">Walk through all 5. Ask which option they think would best help achieve their goals.</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">6</div><div><div class="step-label">Program Explanation (5 Steps)</div><div class="step-desc">Stop payments → FDIC account → ClearOne negotiates → client approves settlements → credit improves</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">7</div><div><div class="step-label">Start GOTA Recording (Ext. 9777)</div><div class="step-desc">Select correct recording path based on state and BLP. Recording must be active before agreement walkthrough.</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">8</div><div><div class="step-label">Set Payment Dates</div><div class="step-desc">Match to pay dates if possible — bi-weekly, semi-monthly, or monthly</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">9</div><div><div class="step-label">Read COA Recap Script Verbatim</div><div class="step-desc">Cover ALL required points before sending the agreement</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">10</div><div><div class="step-label">Walk Through Enrollment Agreement (OneSpan)</div><div class="step-desc">Phone or computer? Walk client through every signature and initial step by step</div></div></div>
+      <div class="workflow-step cc"><div class="step-num c">11</div><div><div class="step-label">Close & Welcome Call</div><div class="step-desc">ClearOne CLG contacts within 72 hours · Customer service: 888-768-4767</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ GOTA ══════════════════ -->
+<div class="tab-panel" id="tab-gota">
+  <div class="section-title">GOTA / QA Scripts & Recording Instructions</div>
+  <div class="section-sub">Select the backend — recording instructions listed first, followed by the full verbatim script or QA questions.</div>
+  <div class="company-tabs">
+    <button class="company-tab clg active" onclick="showCo('gota','clg',this)">CORDOBA LEGAL GROUP QA</button>
+    <button class="company-tab beyond" onclick="showCo('gota','beyond',this)">BEYOND / FIVE LAKES</button>
+    <button class="company-tab clear" onclick="showCo('gota','clear',this)">CLEARONE / ALPERSTEIN</button>
+  </div>
+
+  <!-- CORDOBA LEGAL QA -->
+  <div class="company-panel active" id="gota-clg">
+    <div class="card">
+      <div class="card-title">📋 Cordoba Legal Group — Contract Walk-Through</div>
+      <div class="script-note" style="background:rgba(220,90,58,0.12);border-color:rgba(220,90,58,0.3);color:#f8a98a;font-size:14px;font-style:normal;">
+        📞 <strong>Welcome Call Transfer: 561-934-7770</strong><br>
+        Select 1 English / 2 Spanish → Enter client's HOME phone number on file → Do NOT stay on the line<br>
+        CLG will notify you via Skype if completed or if changes are needed.
+      </div>
+      <div style="margin-top:14px;">
+        <p style="font-size:13px;color:var(--silver);margin-bottom:12px;">Walk the client through the agreement via Forth (DPG) before transferring to the Welcome Call. Cover each paragraph — key signature pages are highlighted below.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📄 Agreement Walk-Through — All 14 Paragraphs</div>
+      <div class="script-note">Walk through each section verbatim. Ask the client to sign or initial when prompted on each signature page.</div>
+
+      <div class="script-stage">PARAGRAPH 1 — PARTIES</div>
+      <div class="verbatim-block">This defines the agreement as being between you and <strong>Cordoba Legal Group, LLC</strong>.</div>
+
+      <div class="script-stage">PARAGRAPH 2 — SCOPE OF REPRESENTATION</div>
+      <div class="verbatim-block">This states the "Scope of the Representation." Meaning, the law firm will <strong>negotiate settlements on the debt listed in this agreement</strong> and give you full legal representation.</div>
+
+      <div class="script-stage">PARAGRAPH 3 — YOUR OBLIGATIONS AS THE CLIENT</div>
+      <div class="verbatim-block">This covers your obligations — for example, supplying them with any documentation they need, making sure you are available within a reasonable time frame in case they need your approval on a settlement. It also covers the fact that they have an account set up and you'll need to budget those funds so they can get the accounts settled.<br><br>(C) &amp; (D): You would need to keep the firm in the loop if anything should come up or change on your end.</div>
+
+      <div class="script-stage">PARAGRAPH 4 — PAYMENTS</div>
+      <div class="verbatim-block">Goes over your payment amounts and the dates your payments will be pulled. If you ever need to change this, you would just call your dedicated representative at the firm and they will assist you with any changes.</div>
+
+      <div class="script-stage">PARAGRAPH 5 — DIVISION OF PAYMENTS</div>
+      <div class="verbatim-block">This breaks down your payment schedule and how funds are allocated between settlements and attorney fees.</div>
+
+      <div class="script-stage">PARAGRAPH 6 — ADDITIONAL PAYMENTS, REFUNDS & CANCELLATION</div>
+      <div class="verbatim-block">"Refund" — if they get settlements better than what your plan called for, you will get any savings money back that is left in your dedicated account. You can cancel at any time without any penalties.</div>
+
+      <div class="script-stage">PARAGRAPH 7 — TERMS OF REPRESENTATION</div>
+      <div class="verbatim-block">You are represented by an attorney in your state who will handle any legal issues, along with their staff, in negotiating settlements on your behalf. Since they are representing you, they are able to counsel you on any legal matter regarding your debt.<br><br>Key disclosures: Your funds will only be used for settlements. Your balances can grow while they negotiate — this is normal and does not affect the settlements. Your creditors may contact you — direct any creditors to the firm since they handle all aspects of your program debt.</div>
+
+      <div class="script-stage">PARAGRAPH 8 — TEXT MESSAGING AUTHORIZATION</div>
+      <div class="verbatim-block">This gives the firm permission to text message you if needed.</div>
+
+      <div class="script-stage">PARAGRAPH 10 — GOVERNING LAW AND VENUE</div>
+      <div class="verbatim-block">The State of Florida — where the main office is located.</div>
+
+      <div class="script-stage">PARAGRAPH 11 — ENTIRE AGREEMENT</div>
+      <div class="verbatim-block">This states that this agreement supersedes any other agreement like this if you already had one in place prior to your enrollment with the firm.</div>
+
+      <div class="script-stage">PARAGRAPH 12 — ARBITRATION</div>
+      <div class="verbatim-block">Standard Arbitration Clause — meaning if there are any disputes, they will get it handled before any courts are involved.</div>
+
+      <div class="script-stage">PARAGRAPH 13 — WAIVER OF JURY TRIAL</div>
+      <div class="verbatim-block">Standard Waiver of Jury Trial of the Arbitration Clause in Paragraph 12.</div>
+
+      <div class="script-stage">PARAGRAPH 14 — MODIFICATIONS</div>
+      <div class="verbatim-block">This states that this agreement cannot be modified unless both parties agree in writing.</div>
+
+      <div class="script-stage">PAGE 11 — FIRST SIGNATURE</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>Please click on the signature box — it will apply your electronic signature. (The "Adopt and Confirm Signature" page will appear — direct them properly.)</div>
+
+      <div class="script-stage">PAGE 13 — EXHIBIT A (LIST OF ACCOUNTS)</div>
+      <div class="verbatim-block">This is the list of the accounts you are including in the program.</div>
+
+      <div class="script-stage">PAGES 14–15 — AUTHORIZATION TO CONTACT CREDITORS</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>These pages give the firm authorization to contact and speak to your creditors on your behalf. Please click the signature box to apply your electronic signature.</div>
+
+      <div class="script-stage">PAGE 16 — NOTICE OF CANCELLATION</div>
+      <div class="verbatim-block">You can cancel at any time without any penalties. No signature required on this page.</div>
+
+      <div class="script-stage">PAGE 17 — PRIVACY POLICY</div>
+      <div class="verbatim-block">This informs you of the protection of your personal information. Your personal information is never sold to any third parties. No signature required on this page.</div>
+
+      <div class="script-stage">PAGES 19–26 — FORTH-CORDOBA PAYMENT PROCESSOR</div>
+      <div class="verbatim-block">These pages show your payment processor — <strong>Forth-Cordoba</strong> — who will be processing your payments. It shows the account that will be used for your payments, banking definitions you may hear from the firm's representatives, and standard banking disclosures.</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>Page 19: Click to apply your initials on the bottom right side.<br>Page 20: Click to apply your electronic signature.<br>Page 27: Click to apply your final electronic signature.</div>
+
+      <div class="script-note" style="margin-top:16px;">✅ Agreement complete → Transfer to Welcome Call: <strong>561-934-7770</strong> · Enter HOME phone number · Do NOT stay on the line · CLG notifies via Skype</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📞 Transferring a Welcome Call — Step by Step</div>
+      <ol style="font-size:13px;padding-left:20px;line-height:2.2;color:var(--silver);">
+        <li>Dial <strong style="color:var(--white);">561-934-7770</strong></li>
+        <li>System asks: select <strong style="color:var(--white);">1 for English</strong> or <strong style="color:var(--white);">2 for Spanish</strong></li>
+        <li>Enter the client's <strong style="color:var(--white);">HOME PHONE number on file</strong> — do not enter anything else</li>
+        <li>After they pull up the file, they'll ask you to transfer for the quick welcome call</li>
+        <li><strong style="color:var(--white);">Do NOT stay on the line</strong> — disconnect after transferring</li>
+        <li>CLG Welcome Call rep will notify you via <strong style="color:var(--white);">Skype</strong> if completed or if changes need to be made</li>
+        <li>If changes needed: make corrections → send client a <strong style="color:var(--white);">new agreement to sign</strong> → transfer back to Welcome Call team</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="company-panel" id="gota-beyond">
+    <div class="card">
+      <div class="card-title">🎙️ GOTA Recording Instructions — Beyond / Five Lakes</div>
+      <div class="script-note">⚠️ Start the recording BEFORE beginning the agreement walkthrough. Must be active the entire call.</div>
+      <p style="font-size:13px;margin:12px 0 8px;font-weight:600;">Steps:</p>
+      <ol style="font-size:13px;padding-left:20px;line-height:2;">
+        <li>On your phone, click "More" and "Confrnc"</li>
+        <li>Type extension <strong>9777</strong></li>
+        <li>Follow prompts OR use the path guide below</li>
+        <li>Click "0" to pause the recording</li>
+        <li>Click "More" and "Confrnc" to merge the client, then "0" to play</li>
+      </ol>
+      <p style="font-size:13px;margin:16px 0 8px;font-weight:600;">Recording Paths — Beyond Finance:</p>
+      <table class="ref-table"><tr><th>Path</th><th>State / BLP / Conditional</th></tr>
+        <tr><td>1/1/1</td><td>CA — BLP: Yes — Conditional: No</td></tr>
+        <tr><td>1/1/2</td><td>CA — BLP: Yes — Conditional: Yes</td></tr>
+        <tr><td>1/2/1</td><td>CO, AK, ID, MT, NC — BLP: Yes — Conditional: No</td></tr>
+        <tr><td>1/2/2</td><td>CO, AK, ID, MT, NC — BLP: Yes — Conditional: Yes</td></tr>
+        <tr><td>1/3/1</td><td>All other states — BLP: No — Conditional: No</td></tr>
+        <tr><td>1/3/2</td><td>All other states — BLP: No — Conditional: Yes</td></tr>
+      </table>
+      <p style="font-size:13px;margin:12px 0 6px;font-weight:600;">Five Lakes: Path <strong>3</strong> for all enrollments</p>
+      <p style="font-size:13px;margin:12px 0 6px;font-weight:600;">Recording Control Keys: <span style="color:var(--silver);">* Rewind &nbsp; 0 Pause &nbsp; # Fast Forward &nbsp; 5 Stop &nbsp; 1 Restart</span></p>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Beyond GOTA — Full Verbatim Script <span style="font-size:10px;color:var(--silver);font-weight:400;margin-left:8px;">Updated 05.11.26 · Effective 05.12.26</span></div>
+      <div class="script-note">GREEN blocks = read verbatim. AMBER blocks = conditional / CLIENT ACTION NEEDED. Do not skip any section.<br>*If client(s) wish to discuss their financial analysis further, provide: <strong>1-866-345-5007</strong></div>
+      <div class="verbatim-block">You should have just received two emails - one says "Proven Results" in the subject line, and you can check that one out later, but the one we're looking for now should say "Please Review and sign Enrollment Services agreement", and it's coming from "Resolution Account - Enrollment Services via Docusign". Open that email, scroll down and click on the "Review Documents" button. That should lead you to a new window where you should see a blank checkbox next to the words "I agree to do business electronically" – Go ahead and click that box, and then click on the button to the right that says "Continue".</div>
+
+      <div class="verbatim-block">You should now be looking at the front page of the agreement, where there are a few high level details for your program. Here you will see that the Beyond program is the most cost-effective way to resolve your debt, when compared to alternative options like minimum payments. Additionally, to the right you will see some program details like your total enrolled debt, your monthly deposit, and estimated program deposits. Now, we will review the agreement together and make sure everything looks good as you sign. Please stop me anytime if you have questions!</div>
+
+      <div class="client-action"><div class="client-action-label">CA CLIENTS ONLY — READ VERBATIM</div>The information on the next page is required by your state and should help educate you about this process. It recaps some of the basic points related to the program, but I'm going to be reviewing everything with you in greater detail, so you can go ahead and scroll down to the next page.</div>
+
+      <div class="verbatim-block">Go ahead and scroll down to the next page where you will see "Debt Resolution Agreement" at the top. Now, I am going to summarize the pages and sections that are most relevant to you. Again - please ask as many questions as you like.</div>
+
+      <div class="client-action"><div class="client-action-label">CA CLIENTS ONLY — READ VERBATIM</div>Section 5: Client Dedicated Account - This section goes over your FDIC insured account at CFT Pay which we will discuss in detail later. The dedicated account is set up through the program where you'll be responsible for saving sufficient funds so Beyond can negotiate on your behalf. Please go ahead and click the "Initial" button to confirm your understanding.</div>
+
+      <div class="script-stage">SECTIONS 8–16</div>
+      <div class="verbatim-block">Scrolling to the next page - some of the key points here are:<br><br><strong>Section 8:</strong> Usually, clients start receiving their first resolution offers 3-6 months after enrollment, provided they keep up with their scheduled program deposits. Subsequent offers usually follow similar timing after prior resolution offers. The time frames vary depending on several factors, but Beyond will always keep you updated on your progress! They also have a fantastic app that will keep you updated on the whole process; I'll help you download it at the end of the call!<br><br><strong>Section 9:</strong> If you receive any notices from your creditors make sure to forward all communications to Beyond. If your address or phone number changes make sure to keep them updated.<br><br><strong>Section 10:</strong> Beyond does not have the ability to give you any tax or legal advice.<br><br>If that makes sense, we can go to the next page &gt;&gt;&gt;<br><br><strong>Section 11:</strong> Beyond Finance only earns their fee once they have successfully negotiated with your creditor and locked in terms that you agree to. Fees paid to Beyond Finance are not used to pay creditors and all fees are included in the payment we discussed today.<br><br><strong>Section 15:</strong> If you've enrolled jointly held accounts or debts with co-borrowers, it is your responsibility to notify them that you've enrolled the joint debts within this program. Please go ahead and click the "Initial" button. If you don't have any questions, we can go to the next page….<br><br><strong>Section 16:</strong> In rare situations, Beyond may encounter difficult creditors. If this happens, they may contact you for assistance to help get that debt resolved.</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>Client clicks "Initial" button on Section 15</div>
+
+      <div class="script-stage">SECTION 19 — CA CLIENTS ONLY</div>
+      <div class="client-action"><div class="client-action-label">CA CLIENTS ONLY — READ VERBATIM</div>Section 19: Arbitration and Waiver - While Beyond prides themselves on the results they achieve for their clients and their customer service throughout the program, in the event a dispute arises that they're unable to work out on their own, you would both agree to settle the matter through arbitration. If you wish to opt out, please follow the instructions in this section. Please click to "Initial" there to confirm your understanding.</div>
+
+      <div class="verbatim-block">By signing below, you agree to the terms and conditions of this enrollment agreement. Now, if there are no other questions please click the "Sign" button to confirm your understanding.</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>Client clicks "Sign" button</div>
+
+      <div class="client-action"><div class="client-action-label">CA CLIENTS ONLY — READ VERBATIM</div>Per California law, Beyond has provided you, for review, unsigned copies of this Debt Resolution Agreement and the Notice to California Consumers (the disclosure that precedes this agreement). This agreement will not become effective until at least 3 calendar days have passed, and it is completely executed. Upon full execution, you'll receive a copy. The next few pages are related to Privacy and an acknowledgement statement that we went over the agreement together. You'll need to click the "Sign" button to confirm your understanding.</div>
+
+      <div class="script-stage">SCHEDULE A</div>
+      <div class="verbatim-block">Go ahead and scroll down to the page titled "Schedule A - List of Creditors and Debt &amp; Program Details" page. At the bottom, you will see the "Program Details Box" which summarizes your program information for you. Here you will see estimates for your: program savings ($xxx), program length (xx months), and total program fees ($xxx). Please go ahead and click the "Sign" button to confirm your understanding.</div>
+      <div class="client-action"><div class="client-action-label">CONDITIONAL DEBT CLIENTS ONLY — READ IF APPLICABLE</div>You'll notice that there are some accounts that have (+) signs next to them. Those are conditional debts. We will need you to send us documents in order to get the debt added to your program. You must submit those within the next 30 days, at which point the Beyond team will review the documents and confirm if the debt has been approved or rejected from the program.</div>
+      <div class="verbatim-block">The next few pages are your "Notice of Cancellation."</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>Client clicks "Sign" button on Schedule A</div>
+
+      <div class="script-stage">ACDR DISCLOSURES</div>
+      <div class="verbatim-block">Next you'll see an ACDR logo at the very top of the page. The ACDR is the most prestigious trade association in our industry, and requires the highest level of consumer protections, which Beyond Finance adheres to. I do need to cover a few of the topics with you for compliance reasons. This may be a little repetitive as we've already covered many of these topics during the call so please bear with me for a few moments. As always, feel free to stop me at any time if you have questions.<br><br>Debt resolution is not a loan, credit counseling, or a credit repair program. Beyond cannot guarantee that your creditors will agree to resolve your debts, resolve your debts for a specific amount, or within a certain time.<br><em style="color:var(--silver);">But, Beyond has unique relationships with every creditor that you're enrolling and they only enroll creditors that they are confident will negotiate with them.</em><br><br>Debt resolution is suitable for persons who are in financial distress and unable to pay their minimum monthly payments without hardship.<br><em style="color:var(--silver);">Based on your financial situation, you qualify for this program.</em><br><br>The use of a debt resolution program will adversely affect your creditworthiness, as creditors report the status of your enrolled debts to credit bureaus.<br><em style="color:var(--silver);">While there will be an adverse effect on credit scores at the start of the program, the majority of clients report signs of improvement as accounts are resolved and paid down.</em><br><br>Your creditors may subject you to collections or lawsuits, charge you fees, and raise your rates for not making payments on your enrolled debts.<br><em style="color:var(--silver);">This is factored into your deposits and negotiations. Legal action is rare, with the majority of accounts still successfully negotiated.</em><br><br>Your success depends on your ability to make regular deposits into your FDIC-insured dedicated account. If you cannot make these deposits, you should consider alternatives.<br><em style="color:var(--silver);">The most successful clients are consistent with their deposits. The faster you build up funds, the sooner accounts get resolved.</em><br><br>You own and control the dedicated account. Funds in this account will only be used to pay settlements to your creditors, fees to the payment processor, and fees to Beyond for debt resolution services.<br><br>Beyond will not earn or be paid their fee for settling a debt until they obtain a settlement agreement from a creditor, you approve it, and a payment is made on that settlement.<br><br>You may cancel at any time without penalty. You are entitled to funds remaining in the dedicated account, less any fees earned by Beyond or the payment processor.<br><br>Your creditors may report settlement savings of $600 or more to the IRS. We do not provide tax advice. You should consult a tax advisor to determine whether to report these savings as taxable income.<br><br>Please click the "Sign" button to confirm your understanding.</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>Client clicks "Sign" button on ACDR Disclosures page</div>
+
+      <div class="script-stage">AUTHORIZATION DOCS & ACCOUNT SETUP</div>
+      <div class="verbatim-block">The next few pages are related to setting up your new FDIC insured account and deposit schedule with CFT Pay. This is where your funds are deposited so that Beyond can make resolution offers. You will have access to monitor your account 24/7.<br><br>On the right side, you will see the fees associated with the account - only the setup and monthly fee apply to you. As a reminder, these fees are already included in your monthly deposit and are not an additional charge. The next several pages will confirm your banking information, please check these details and "Sign" on these pages as well.<br><br>The next few pages you will see several authorization letters. These give Beyond authorization to communicate with your creditors on your behalf, debit fees from your account and to review your credit information.<br><br>Once you start the program you will get creditor calls. This is a natural part of the process. For more information on this, the Onboarding team will go into detail on how to handle creditor calls. Please go ahead and click the "Sign" button for each of these authorization letters to confirm your understanding.<br><br>The next few pages are a list of acknowledgements. If you have no further questions, you can go ahead and click the "Sign" button here as well.<br><br>The following pages are your "Personal Cash Flow Assessment" which is the budget we discussed earlier. Please click the "Sign" button here as well.</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>Client clicks "Sign" on each authorization letter, acknowledgement, and Cash Flow Assessment</div>
+
+      <div class="script-stage">UDMSA STATES ONLY — CO, NV, UT</div>
+      <div class="client-action"><div class="client-action-label">UDMSA STATES ONLY (CO, NV, UT) — READ IF CLIENT INQUIRES</div>The following page just recaps "Important Information for you to Consider" which we have already discussed in detail in the previous pages.<br><br>The next page shows an "Itemized List of Goods and Services" which reflects the set up and monthly service fee for your FDIC insured account. This page will also recap the accounts that will be included in the program as well as the accounts that are excluded from the program.<br><br>The next page will review your "Schedule of Payments" for the program. You will notice that there is an additional 12 months of payments scheduled to account for any additional hardships you might experience during the program causing you to pause or skip payments, but your program length is still only scheduled for [XX] months.</div>
+
+      <div class="script-stage">PLP DISCLOSURE — CLIENTS WITH PLP COVERAGE</div>
+      <div class="client-action"><div class="client-action-label">READ ONLY FOR CLIENTS WITH PLP COVERAGE</div>The last pages cover the Platinum Legal Protection service, in the form of limited scope representation when dealing with unique creditors and litigation or collection efforts, if needed. This includes going to court on your behalf if required. The cost is...<br><br><strong>AZ:</strong> $16.95/month &nbsp;|&nbsp; <strong>CA:</strong> $19.95/month &nbsp;|&nbsp; <strong>All other states:</strong> $12.95/month<br><br>...and it's already factored into your payment. This product is something Beyond recommends to clients for peace of mind, but it is completely optional. Is this something you would like to keep in your program? (Wait for client response) Great, please click the "Sign" button on the last few pages to confirm your understanding.</div>
+
+      <div class="script-stage">RIGHT OF OFFSET — IF APPLICABLE</div>
+      <div class="client-action"><div class="client-action-label">READ ONLY IF RIGHT OF OFFSET APPLIES</div>This page discusses the Right of Offset. Because you currently bank with (Name of Bank), and you're also enrolling your (loan / line of credit / business cc) account with them, it means they could go into your bank account and apply funds from that account as payment to the outstanding debt. It doesn't always happen, but Beyond likes to be proactive to keep your funds safe. So, for a client in your particular situation it is usually in your best interest to change your bank account elsewhere within the next 30-60 days. This will protect you and will allow the negotiators to work with that account and help maximize your savings. If this makes sense, go ahead and click "Sign" to confirm your understanding.</div>
+
+      <div class="verbatim-block">Now that we have covered everything, you will see a "Finish" button near the bottom of the page - so you can go ahead and click that. If you missed any signatures or initials, a "Next" button should be present on the left side of the page which will bring you to any outstanding signatures or initials. Please make sure all required signatures and initials are complete and then go ahead and click on the "Finish" button…. (confirm client has completed signing &amp; clicked "Finish") - Perfect!! You should have just received a copy of the signed agreement for your records.</div>
+      <div class="client-action"><div class="client-action-label">CLIENT ACTION NEEDED</div>Client clicks "Finish" button — confirm all signatures and initials are complete</div>
+
+      <div class="script-stage">3 KEY PRINCIPLES — READ TO CLIENT</div>
+      <div class="verbatim-block">Alright [Client], we've covered a ton of information, but sticking to these 3 key principles will keep you successful in the program:<br><br><strong>1. CONSISTENCY</strong> is key - Beyond's most successful clients are consistent with their deposits. The faster you build up funds, the sooner they can resolve your accounts.<br><br><strong>2. COMMUNICATION</strong> - Let Beyond handle the communication with your creditors. If you don't recognize the number, let it go to voicemail. They are just trying to pressure you back into paying them interest forever.<br><br><strong>3. PATIENCE</strong> - Most clients start to see their first resolution offers around 3-6 months, but this is a marathon, not a sprint. So stay focused on your financial goals and remember how good it will feel to be back in control of your finances and be DEBT FREE!!</div>
+
+      <div class="script-stage">APP / DASHBOARD SETUP</div>
+      <div class="verbatim-block">Our last step is a quick Onboarding call with one of Beyond's Onboarding agents. They will review key features of your client dashboard, which provides you with 24/7 access to your program. Before I transfer you over, let's set up your Client Dashboard.<br><br><strong>iOS or Android App (Suggested Method):</strong><br>Search "Beyond Finance" in the iPhone App Store or Android Play Store, and download the app. Open the app, at the bottom you should see "Create an Account" - click that. Verify your identity following the prompts (email used for enrollment + last 4 digits of SSN + select how to receive verification code). Once you follow the prompts, create a password. Log in to the app now, and click the banner to enable notifications at the top. When it prompts you to enable push, click "Allow". If you can't find the banner: menu (three lines) top corner → "Profile &amp; Settings" → scroll to bottom → toggle push notifications to "ON" (blue).<br><br><strong>Web Browser (if app not available):</strong><br>Go to www.beyondfinance.com - log-in options near the top right. Click "Activate Your Client Dashboard." Verify your identity following the prompts (email + last 4 digits of SSN + verification code). Create a password to access your Client Dashboard.</div>
+
+      <div class="script-stage">WARM TRANSFER — BEYOND ONBOARDING</div>
+      <div class="verbatim-block">OK, Great! Now that you have that set, I am going to connect you over to the Onboarding Department, can you hold for just a moment?</div>
+      <div class="client-action"><div class="client-action-label">WARM TRANSFER SCRIPT</div><strong>(Intro to OB agent — client on hold / NOT listening):</strong> Hi, this is ______ with [Company Name] - I have a client on the line who's ready for their onboarding call. Their BRP number is (BRP-######). [Let OB agent know if client logged in to app/dashboard, and share any concerns or info helpful for OB agent.]<br><br><strong>(CONFERENCE ALL PARTIES)</strong> Hey [Client Name], are you still there? Perfect!<br><br><strong>(CONNECT/TRANSFER)</strong> Alright [OB Agent Name], I have [Client Name] on the line now. We are excited to get [his/her/their] program set up so that [he/she/they can] [INSERT CLIENT'S LONG TERM GOALS — e.g. buying a house, planning for retirement, saving for kids' education]<br><br><strong>(COMPLETE TRANSFER / CONFERENCE WITH CLIENT, THEN END CALL)</strong></div>
+      <div class="script-note">📋 Welcome Call: Beyond → <strong>1-855-769-0791</strong> / Five Lakes → <strong>1-855-734-9385</strong> · WARM transfer only — never blind transfer</div>
+    </div>
+  </div>
+
+  <div class="company-panel" id="gota-clear">
+    <div class="card">
+      <div class="card-title">🎙️ GOTA Recording Instructions — ClearOne / Alperstein</div>
+      <div class="script-note">⚠️ Start the recording BEFORE beginning the agreement walkthrough. Must be active the entire call.</div>
+      <p style="font-size:13px;margin:12px 0 8px;font-weight:600;">Steps:</p>
+      <ol style="font-size:13px;padding-left:20px;line-height:2;">
+        <li>On your phone, click "More" and "Confrnc"</li>
+        <li>Type extension <strong>9777</strong></li>
+        <li>Follow prompts OR use the path guide below</li>
+        <li>Click "0" to pause the recording</li>
+        <li>Click "More" and "Confrnc" to merge the client, then "0" to play</li>
+      </ol>
+      <p style="font-size:13px;margin:16px 0 8px;font-weight:600;">Recording Paths — ClearOne:</p>
+      <table class="ref-table"><tr><th>Path</th><th>State / BLP</th></tr>
+        <tr><td>2/1/1</td><td>Green States — BLP: Yes</td></tr>
+        <tr><td>2/1/2</td><td>Green States — BLP: No</td></tr>
+        <tr><td>2/2/1</td><td>Red States — BLP: Yes</td></tr>
+        <tr><td>2/2/2</td><td>Red States — BLP: No</td></tr>
+      </table>
+      <p style="font-size:13px;margin:12px 0 6px;font-weight:600;">Recording Control Keys: <span style="color:var(--silver);">* Rewind &nbsp; 0 Pause &nbsp; # Fast Forward &nbsp; 5 Stop &nbsp; 1 Restart</span></p>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 ClearOne COA Recap — Read Verbatim</div>
+      <div class="script-note">PURPLE blocks = read verbatim to client. AMBER blocks = conditional reads.</div>
+      <div class="verbatim-block">Congratulations on being approved for the program! The last step of our process is to cover some important terms of your program, so it's going to sound like I'm reading. This is to ensure that you have a full understanding of all program expectations and to set you up for success. Thank you for your patience. Now, here's a breakdown of your approved program:<br><br>Your total estimated debt amount being enrolled is $[XX,XXX].<br>We are projecting to negotiate that balance down to an estimated [Estimated cost to Client].<br>Your draft amount will be $[XXX] and scheduled [Every Two Weeks / Twice a Month / Monthly].<br>Your first draft is scheduled for [Program Start Date].<br>Based on timely payments, you will be debt free in an estimated [XX] months.</div>
+      <div class="verbatim-block">ClearOne Advantage is paid on a per-settlement basis and their flat fee of 28–29% is built into your monthly program payment. The fee is only payable if ClearOne successfully negotiates a settlement. There are no prepayment penalties for completing the program early, so you can feel free to add anything extra into your settlement account to get out of debt faster.<br><br>Do you have any questions about any of the numbers we just covered?</div>
+      <div class="script-stage">PROGRAM EXPECTATIONS</div>
+      <div class="verbatim-block">The following terms are an important part of the agreement with you, so let's talk through them.<br><br>On the Enrollment Agreement, you will see estimated settlement amounts. We want you to understand that these are estimations based on our prior results. Actual settlement amounts and the period required to settle your debts are estimates and are likely to vary by Creditor.<br><br>You have explained that you are experiencing financial hardship and will be voluntarily stopping minimum payments required by your creditors. Remember that this involves disabling any autopay features set up with any of your creditors we've enrolled. As a reminder, when you do this, your accounts will likely be reported to the consumer reporting agencies as late, charged off, or past due. Your creditors may continue to pursue collection efforts while you're enrolled in the program. These may include phone calls and letters to you, sending past due accounts to collection agencies, and potentially litigating against you.</div>
+      <div class="client-action"><div class="client-action-label">LITIGATION PROTECTION — OPT IN — READ IF APPLICABLE</div>"To help with this, you have agreed to add the Legal Protection Services to your program for extra peace of mind. In the event of a lawsuit, legal protection grants you access to a law firm who will represent you throughout the case and is prepared to appear in court if needed. A settlement or payment arrangement can still be arranged after a lawsuit. It is $33.95 per month and will be drafted on the [Program Start Date Day]. This will be drafted separately from your program payment."</div>
+      <div class="verbatim-block">ClearOne is not a law firm and cannot provide legal advice. Please keep in mind that once an agreed settlement is reached, all communication from that creditor should cease.<br><br>Generally, the more money you can add into your settlement account, the sooner they will be able to start negotiating settlements for you. So feel free to add anything extra into your dedicated account to get out of debt faster.<br><br>They will contact you when they receive settlement offers. It is very important that you respond timely. Their negotiators will contact you from time to time with the opportunity to do a special draft into your settlement account.<br><br>You may face a tax consequence in the form of a 1099. You may be eligible to file an IRS 982 form. You should consult your tax advisor.<br><br>An included benefit of the program is that you may become eligible for a debt consolidation loan offer. Please note this is restricted in the following states: MA, IA, NV, CO, AR, NE, PR, NM, ND, RI.<br><br>Please understand — this program is not a loan, and the debt consolidation loan we just discussed is not guaranteed.<br><br>What questions do you have about the information we just went over?</div>
+      <div class="client-action"><div class="client-action-label">AFTER AGREEMENT SIGNED — READ TO CLIENT</div>"Now that you are a ClearOne Advantage client, starting today you can voluntarily stop your payments. Make sure you deactivate any autopay associated with your enrolled accounts. Their Customer Loyalty Group will be contacting you within the next few days to complete your welcome call. You can reach their CLG team at 888-768-4767 or email customerservice@clearoneadvantage.com. Congratulations — you've made the right decision today and you are in great hands with ClearOne!"</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Alperstein & Associates — COA Recap Script</div>
+      <div class="script-note">Deliver verbatim after Alperstein enrollment, before sending the Retainer Agreement.</div>
+      <div class="verbatim-block">Congratulations on being approved for the program! The last step of our process is to cover some important terms of your program, so it's going to sound like I'm reading. This is to ensure that you have a full understanding of all program expectations and to set you up for success! Thank you for your patience. Now, here's a breakdown of your approved program:<br><br>Your total estimated debt amount being enrolled is ($XX,XXX).<br>We are projecting to negotiate that balance down to an estimated (Estimated cost to Client).<br>Your draft amount will be ($XXX) and scheduled (Every 2 Weeks / Twice a Month / Monthly).<br>Your first draft is scheduled for (Program Start Date).<br>Based on timely payments, you will be debt free in an estimated (XX) months.<br><br>Alperstein & Associates charges a fee of 30% of the debt enrolled for its services. These fees are only payable to the attorney if they can successfully renegotiate, settle, reduce, or otherwise change the terms of the debt owed to your creditor. There are no penalties for completing the program early, so you can feel free to add anything extra into your settlement account to get out of debt faster.<br><br>Do you have any questions about any of the numbers we just covered?</div>
+      <div class="script-stage">PROGRAM EXPECTATIONS</div>
+      <div class="verbatim-block">The following terms are an important part of your agreement, so let's talk through them.<br><br>On the Retainer Agreement, you will see estimated settlement amounts. Understand that these are estimations based on their prior results. Actual settlement amounts and the period required to settle your debts are estimates and are likely to vary by Creditor. While most creditors and collectors are eager to negotiate, Alperstein & Associates cannot force them to accept an offered settlement.<br><br>You have explained that you are experiencing financial hardship and will be voluntarily stopping minimum payments required by your creditors. As a reminder, when you do this, you will have a negative impact to your credit rating. Alperstein & Associates does not offer credit repair services or advice. If you have any automated payments set up with these creditors, you should speak to your attorney about whether you should cancel these. The law firm doesn't make monthly payments to your creditors.<br><br>Your creditors may continue to pursue collection efforts while you are enrolled in the program. These may include phone calls and letters to you, sending delinquent accounts to collection agencies or even filing a lawsuit against you.<br><br>Have you been served legal paperwork on any of your enrolled accounts? Are any of these accounts currently in judgement status?</div>
+      <div class="client-action"><div class="client-action-label">LEGAL PROTECTION — OPT IN — READ IF APPLICABLE</div>To help with this, you have agreed to add the Legal Protection Services to your program for extra peace of mind. In the event of a lawsuit, legal protection services grant you access to a law firm who will represent you throughout the case and is prepared to appear in court if needed. A settlement or payment arrangement can still be arranged after a lawsuit. It is $33.95 per month and will be drafted on the (Program Start Date Day) — ex: 5th of every month — and is already factored into the payment we have for your program.</div>
+      <div class="client-action"><div class="client-action-label">LEGAL PROTECTION — OPT OUT</div>Move on to next line of script</div>
+      <div class="verbatim-block">Keep in mind the law firm is unable to collect their fee unless they deliver you a newly negotiated payment plan, so they have a vested interest in reaching a settlement quickly.<br><br>The law firm will contact you when they receive settlement offers. It's very important that you respond timely because they need your authorization to approve the settlements. When the law firm reaches out to approve a settlement, they will call 443-646-4744. It's important that you save that number in your phone so you do not miss that call!<br><br>You may face a tax consequence in the form of a 1099. You may be eligible to file an IRS 982 form. You should consult your tax advisor.<br><br>An included benefit of our program is that you may become eligible for a debt consolidation loan offer. (Restricted States — MA, IA, NV, CO, AR, NE, PR, NM, ND, RI)<br><br>Please understand, this program is not a loan, and the debt consolidation loan we just discussed is not guaranteed.<br><br>What questions do you have about the information we just went over?<br><br>Please go to your email, so I can walk you through your Retainer Agreement and finalize your paperwork.</div>
+      <div class="client-action"><div class="client-action-label">AFTER THE AGREEMENT — READ TO CLIENT</div>In the next few days, you will get a call from Alperstein & Associates to complete your welcome call. They are going to confirm the details we just discussed and set up access to your client portal. You will also receive a call from your attorney for an initial consultation. Expect to receive this call as soon as your first payment is made.<br><br>Congratulations (client name), you've made the right decision today and you are in great hands with our trusted partner Alperstein & Associates. Have a great day!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ COMPLIANCE ══════════════════ -->
+<div class="tab-panel" id="tab-compliance">
+  <div class="section-title">Compliance</div>
+  <div class="section-sub">Compliance protects you, the company, and the client. It REINFORCES a deal. Non-compliance raises your cancel rate.</div>
+
+  <div class="card">
+    <div class="card-title">✅ The 3 Keys — Cover These on EVERY Call</div>
+    <div class="fail-item ok"><div class="fail-icon">✅</div><div><strong>Credit Impact:</strong> "You will see a temporary dip on your credit during the modification/settlement process."</div></div>
+    <div class="fail-item ok"><div class="fail-icon">✅</div><div><strong>Not A Loan:</strong> "This is a Hybrid Modification Plan — you are not trading debt for debt, and there are no prepayment penalties."</div></div>
+    <div class="fail-item ok"><div class="fail-icon">✅</div><div><strong>Accounts Closing:</strong> "Any cards we do enroll will be getting closed out — we would not want you continuing to use them going forward."</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚨 Automatic Fails — Pre-Credit Check</div>
+    <div class="fail-item auto-fail"><div class="fail-icon">❌</div><div>Failure to notify consumer that call is recorded</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">❌</div><div>Failure to obtain verbal authorization before pulling credit</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">❌</div><div>Pre-Pitch — talking about Debt Settlement OR naming any backend BEFORE pulling credit</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">❌</div><div>Providing wrong campaign name</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚨 Automatic Fails — During Pitch</div>
+    <div class="fail-item auto-fail"><div class="fail-icon">❌</div><div>Providing wrong backend information</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">❌</div><div>Failure to cover ALL 3 compliance key points before closing</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">❌</div><div>Falsifying the monthly budget</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Never Say These Things</div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>"Your credit score will not be affected"</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>"Your credit cards will not be closed out"</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>"This will not affect your eligibility for a mortgage/refi/auto within the next few months"</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>"We issue monthly payments to your creditors during the negotiation process"</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>Guaranteeing a 50% settlement or any specific settlement percentage</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>Giving a specific time frame for credit score improvement</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>Stating the program will make your credit score better</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>Anything related to credit repair — this is NOT a credit repair program (CROA violation)</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>Providing legal or tax advice</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>Saying cards can be reactivated after settlements</div></div>
+    <div class="fail-item warning"><div class="fail-icon">⚠️</div><div>Quoting the program without including the fee</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔴 Grounds for Termination</div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Giving out the office address to any client</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Calling or texting clients from your personal phone</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Contacting clients outside approved hours — 8am to 9pm in their local time zone</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Storing client personal info beyond name, debt amount, and payment dates</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Signing documents on a client's behalf</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Pulling credit without speaking to a client or without their explicit permission</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Naming any backend or discussing Debt Settlement before the credit report is pulled</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Multiple offenses of non-compliant statements on calls</div></div>
+    <div class="fail-item auto-fail"><div class="fail-icon">🔴</div><div>Drop-out rate consistently below 20%</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════ PHONE NUMBERS ══════════════════ -->
+<div class="tab-panel" id="tab-phones">
+  <div class="section-title">Phone Numbers Quick Reference</div>
+  <div class="section-sub">Keep this tab open during calls. WARM transfer only — never blind transfer.</div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">📲 Welcome Calls — Transfer Client Here After Enrollment</div>
+      <table class="ref-table">
+        <tr><th>Company</th><th>Number</th></tr>
+        <tr><td>Cordoba Legal Group</td><td><strong>561-934-7770</strong></td></tr>
+        <tr><td>Five Lakes</td><td><strong>1-855-734-9385</strong></td></tr>
+        <tr><td>Beyond Finance</td><td><strong>1-855-769-0791</strong></td></tr>
+        
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">🎧 Customer Service — Post-Enrollment Support</div>
+      <table class="ref-table">
+        <tr><th>Company</th><th>Number</th></tr>
+        <tr><td>Cordoba Legal Group CS</td><td>1-888-988-6815</td></tr>
+        <tr><td>Five Lakes CS</td><td>1-855-441-6129</td></tr>
+        <tr><td>Beyond Finance CS</td><td>1-800-282-7186</td></tr>
+        <tr><td>Cordoba Legal Group Creditor Hotline</td><td>561-560-3195</td></tr>
+        <tr><td>ClearOne CS</td><td>888-768-4767</td></tr>
+        <tr><td>ClearOne CS Email</td><td>customerservice@clearoneadvantage.com</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⭐ Special Numbers — Know These by Heart</div>
+    <table class="ref-table">
+      <tr><th>Number</th><th>Purpose</th></tr>
+      <tr><td><strong>561-934-7770</strong></td><td>Cordoba Legal Group QC Bot — provide DOB Year & SSN to pull up client</td></tr>
+      <tr><td><strong>443-646-4744</strong></td><td>ClearOne / Alperstein Settlement Approvals — have client SAVE this number!</td></tr>
+      <tr><td><strong>1-866-345-5007</strong></td><td>Beyond Finance — if client wishes to discuss financial analysis further</td></tr>
+        <tr><td><strong>561-560-3195</strong></td><td>Cordoba Legal Group — Creditor Hotline</td></tr>
+        <tr><td><strong>legal@cordobalegal.com</strong></td><td>Cordoba Legal Group — Summons / Legal Documents (include client ID + Date of Service)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🕐 Rep Contact Hours</div>
+    <p style="font-size:13px;line-height:1.7;">You may contact clients <strong>8:00am – 9:00pm in their LOCAL time zone ONLY</strong>. Contacting clients outside these hours is grounds for immediate termination.<br><br><strong style="color:var(--steel-light);">Cordoba Legal Group Hours (all Eastern Time):</strong><br>Welcome Call: Mon–Thu 9am–12am · Fri 9am–10pm · Sat 10am–8pm<br>Customer Service: Mon–Thu 9am–9pm · Fri 9am–8pm · Sat 10am–5pm<br><br><strong style="color:var(--beyond);">Beyond / Five Lakes &amp; ClearOne:</strong> Mon–Fri 8am–5pm PST</p>
+  </div>
+</div>
+
+<!-- ══════════════════ STATE REFERENCE ══════════════════ -->
+<div class="tab-panel" id="tab-states">
+  <div class="section-title">State Reference Guide</div>
+  <div class="section-sub">Fee rates and eligibility for every state across all four backends. Search by state name to filter.</div>
+
+  <div class="state-legend">
+    <div class="legend-item"><span class="state-cell state-ok">25%</span> <span style="color:var(--silver);">Standard rate — eligible</span></div>
+    <div class="legend-item"><span class="state-cell state-legal">27% (Legal)</span> <span style="color:var(--silver);">Legal/Gold state rate — eligible</span></div>
+    <div class="legend-item"><span class="state-cell state-fcs">18–20% (FCS)</span> <span style="color:var(--silver);">Special FCS rate — eligible</span></div>
+    <div class="legend-item"><span class="state-cell state-red">RED STATE</span> <span style="color:var(--silver);">Unacceptable — do not enroll</span></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-title">💳 Payment Processor Fees (built into program payment)</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;">
+      <span><strong style="color:var(--steel-light);">Cordoba Legal Group:</strong> ForthPay — $10.95/month</span>
+      <span style="color:var(--silver);">·</span>
+      <span><strong style="color:var(--beyond);">Beyond / Five Lakes:</strong> Crossroads (CFTPAY) — $9.75/month</span>
+      <span style="color:var(--silver);">·</span>
+      <span><strong style="color:var(--clear);">ClearOne / Alperstein:</strong> Global Holdings — $16.99/month</span>
+    </div>
+  </div>
+
+  <input type="text" class="state-search" id="stateSearch" placeholder="Search state..." onkeyup="filterStates()">
+
+  <div class="card" style="padding:0;overflow:hidden;">
+    <table class="ref-table" id="stateTable">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th style="color:#f8a98a;">Cordoba Legal Group</th>
+          <th style="color:#f8a98a;">(CLG)</th>
+          <th style="color:#34d399;">Beyond</th>
+          <th style="color:#34d399;">Five Lakes</th>
+          <th style="color:#a78bfa;">ClearOne</th>
+          <th style="color:#a78bfa;">Alperstein</th>
+        </tr>
+      </thead>
+      <tbody id="stateBody">
+        <tr><td>Alabama</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Alaska</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Arizona</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Arkansas</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>California</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Colorado</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Connecticut</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Delaware</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>District of Columbia</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Florida</td><td><span class="state-cell state-legal">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Georgia</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Hawaii</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Idaho</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-fcs">20% (FCS)</span></td><td><span class="state-cell state-fcs">20% (FCS)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Illinois</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Indiana</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Iowa</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Kansas</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Kentucky</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Louisiana</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Maine</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Maryland</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Massachusetts</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Michigan</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Minnesota</td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Mississippi</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Missouri</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Montana</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-fcs">18% (FCS)</span></td><td><span class="state-cell state-fcs">18% (FCS)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td></tr>
+        <tr><td>Nebraska</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Nevada</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>New Hampshire</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>New Jersey</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>New Mexico</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>New York</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>North Carolina</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td></tr>
+        <tr><td>North Dakota</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Ohio</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Oklahoma</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Oregon</td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td></tr>
+        <tr><td>Pennsylvania</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td></tr>
+        <tr><td>Rhode Island</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td></tr>
+        <tr><td>South Carolina</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td></tr>
+        <tr><td>South Dakota</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Tennessee</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Texas</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Utah</td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">28%</span></td><td><span class="state-cell state-ok">28%</span></td></tr>
+        <tr><td>Vermont</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Virginia</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Washington</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>West Virginia</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Wisconsin</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-ok">25%</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+        <tr><td>Wyoming</td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-legal">27% (Legal)</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-red">RED STATE</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td><td><span class="state-cell state-legal">30% (Legal)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<script>
+// ── WORKER URL — UPDATE THIS WITH YOUR CLOUDFLARE WORKER URL ──
+const WORKER_URL = 'https://liftlending-proxy.chanceblack95.workers.dev';
+
+// ── TAB NAVIGATION ──
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── DAY ACCORDION ──
+function toggleDay(card) {
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.day-card').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+
+// ── TASK CHECKBOX ──
+function chk(e, el) {
+  e.stopPropagation();
+  el.classList.toggle('checked');
+}
+
+// ── OBJECTION ACCORDION ──
+function toggleObj(card) {
+  card.classList.toggle('open');
+  const arrow = card.querySelector('.objection-q span');
+  arrow.textContent = card.classList.contains('open') ? '▲' : '▼';
+}
+
+// ── COMPANY PANELS ──
+function showCo(section, co, btn) {
+  const container = document.getElementById('tab-' + section);
+  container.querySelectorAll('.company-panel').forEach(p => p.classList.remove('active'));
+  container.querySelectorAll('.company-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(section + '-' + co).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── REP TRACKER ──
+function addRep() {
+  const name = document.getElementById('repName').value.trim();
+  const day = parseInt(document.getElementById('repDay').value);
+  if (!name) return;
+  const labels = ['', 'Foundations', 'CRM & Credit', 'Scripts & Objections', 'Guidelines & QA', 'Shadow & Certify'];
+  const pct = (day / 5) * 100;
+  let dots = '';
+  for (let i = 1; i <= 5; i++) {
+    const cls = i < day ? 'done' : i === day ? 'active' : 'todo';
+    dots += `<div class="day-dot ${cls}">${i}</div>`;
+  }
+  const card = document.createElement('div');
+  card.className = 'rep-card';
+  card.innerHTML = `<div class="rep-name">${name}</div><div class="rep-status">Day ${day} — ${labels[day]}</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><div class="rep-days">${dots}</div>`;
+  document.getElementById('repGrid').appendChild(card);
+  document.getElementById('repName').value = '';
+}
+
+// ── AI COACH ──
+const systemPrompt = `You are an AI training coach for Lift Lending's Debt Settlement (DS) team. You know everything about the DS program — scripts, objections, compliance, workflows, GOTA/contract walk-through procedures, and company-specific guidelines for all three backend partners: Cordoba Legal Group (CLG), Beyond Finance / Five Lakes, and ClearOne Advantage / Alperstein & Associates.
+
+KEY LANGUAGE RULES:
+- In DS, we use "negotiate," "settle," "modify," and "reduce" debt — this is CORRECT for DS
+- Never say "invalidate" or "eliminate" — those are for the DV (Debt Validation) product
+- NEVER mention Cordoba Legal Group until AFTER consent is given AND credit is pulled
+
+KEY FACTS:
+CORDOBA LEGAL GROUP (CLG):
+- Min total eligible debt: $8,000 (Lift Lending minimum) | Min per account: $300 (no single debt under $100)
+- Performance fee: 25% of enrolled debt — ONLY paid after successful settlement
+- Monthly service fee: $60/month if $10,000+ enrolled | $30/month if $9,999 or less
+- Settles at 75 cents on dollar or less (50% to creditor, 25% CLG fee)
+- Welcome Call Transfer: 561-934-7770 (select 1 English / 2 Spanish → enter HOME phone → do NOT stay on line)
+- Customer Service: 1-888-988-6815 | Creditor Hotline: 561-560-3195
+- Email: support@cordobalegal.com | Legal/Summons: legal@cordobalegal.com
+- 1st payment: 3 business days out (5 for CA) | Max 35 days out
+- Payment processor: Forth-Cordoba (DPG) | CRM: Forth (DPG)
+- Unacceptable states: Oregon, Puerto Rico ONLY
+- 100% money back guarantee | Full lawsuit defense | A-rated BBB
+- Hours (Eastern): Welcome Call Mon-Thu 9am-12am, Fri 9am-10pm, Sat 10am-8pm | CS Mon-Thu 9am-9pm, Fri 9am-8pm, Sat 10am-5pm
+- Do NOT accept clients 90 years or older — no exceptions
+- Summons procedure: share in Slack (@legalsummonsreview), wait for approval, $550 upfront fee + 1st payment due within 3 business days
+- Contract walk-through: 14 paragraphs + key signature pages 11, 14-15, 19, 20, 27
+- Purchaser 1 INELIGIBLE: CLG has client in system already — cannot proceed unless CLG approves
+- Co-applicant rules: must share at least 1 joint debt, credit pulled together, sign agreement, present for Welcome Call
+- Only married couples can enroll individual debts on the same file
+
+ACCEPTABLE DEBT (CLG): Unsecured credit card/personal loan debt, collections accounts (original creditor must be acceptable), medical debt IN collections (must also have CC/loan at 50%+), back rent IN collections (max 50% of total), business debt if closed/failing with no profits (max 50%), online payday loans, note loans (unsecured). Must have made at least 1 payment on account. New credit cards with $300+ balance must have made at least 1 payment.
+
+UNACCEPTABLE DEBT (CLG): Secured debt (except small household items like toaster/microwave/TV — client must be willing to surrender), government debt, IRS debt, student loans (private or government), home improvement loans, title loans, farm loans, timeshares, bank drafts, rent-to-own/lease-to-own, utilities even in collections, cash advances from credit cards, forbearance accounts, judgements, business debt with a summons, military accounts, utilities, farm loans. Max client age: 89.
+
+SECURED UNACCEPTABLE CREDITORS: Lendmark · One Main · Regional Finance · Republic Finance
+
+BEYOND / FIVE LAKES:
+- Min total debt: $25,000 | Min per account: $450 | Fee: 25-27%
+- Welcome Call Beyond: 1-855-769-0791 | Five Lakes: 1-855-734-9385
+- GOTA recording: Extension 9777. Beyond paths: 1/1/1-1/3/2 by state/BLP/conditional. Five Lakes: always path 3.
+- GOTA must be read VERBATIM — no exceptions. Updated 05.11.26, effective 05.12.26.
+- PLP pricing: AZ $16.95/mo | CA $19.95/mo | All other states $12.95/mo (optional)
+
+CLEARONE / ALPERSTEIN:
+- Min total debt: $10,000 | Min per account: $500 | ClearOne fee: 28-29% | Alperstein fee: 30%
+- Litigation Protection: $33.95/month
+- Settlement approval line: 443-646-4744 — client MUST save this!
+- CS: 888-768-4767
+- GOTA recording: Extension 9777. Paths: 2/1/1-2/2/2 by Green/Red states and BLP
+
+COMPLIANCE — 3 THINGS TO COVER BEFORE CLOSING (ALL BACKENDS):
+1. Credit will be negatively affected
+2. NOT a loan / NOT a government program
+3. Cannot guarantee settlement % or specific timeline (CLG) / Accounts Closing (Beyond/ClearOne)
+
+VIOLATIONS — NEVER SAY:
+- "Your credit score will not be affected"
+- "We'll pay off your debt for you"
+- "This is a government program"
+- "Send a POA and creditors will stop calling"
+- "You'll be debt free in [specific timeframe]"
+- Any guarantee of settlement % or timeline
+- Anything about credit repair
+- Mention Cordoba Legal Group before credit is pulled
+
+PAYMENT RULES: 3 business days out (5 for CA), weekdays only, no weekends/holidays.
+
+PAIN PAINTING: 5 steps — Expose Pain, Understand Cause, Relate, Disassociate, Win Client Over.
+QBS: Ask open-ended questions, stack questions to guide clients to their own conclusions, always end with a question.
+
+When asked to roleplay, play the client and throw realistic objections. When quizzing, ask specific questions and give detailed feedback. Be direct, high energy, and match the rep's pace.`;
+
+let chatHistory = [];
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  addMsg(msg, 'user');
+  chatHistory.push({ role: 'user', content: msg });
+  document.getElementById('sendBtn').disabled = true;
+  const thinking = addMsg('...', 'ai');
+  try {
+    const resp = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: chatHistory
+      })
+    });
+    const data = await resp.json();
+    const reply = data.content?.[0]?.text || 'Connection error — please try again.';
+    thinking.textContent = reply;
+    chatHistory.push({ role: 'assistant', content: reply });
+  } catch(e) {
+    thinking.textContent = 'Connection error — check your internet connection and try again.';
+  }
+  document.getElementById('sendBtn').disabled = false;
+}
+
+function addMsg(text, role) {
+  const el = document.createElement('div');
+  el.className = 'msg ' + role;
+  el.textContent = text;
+  const msgs = document.getElementById('chatMessages');
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+function sendStarter(btn) {
+  document.getElementById('chatInput').value = btn.textContent;
+  sendMessage();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+// ── STATE SEARCH ──
+function filterStates() {
+  const q = document.getElementById('stateSearch').value.toLowerCase();
+  const rows = document.querySelectorAll('#stateBody tr');
+  rows.forEach(row => {
+    const state = row.querySelector('td').textContent.toLowerCase();
+    row.style.display = state.includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
